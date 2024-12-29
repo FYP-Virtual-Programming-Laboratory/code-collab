@@ -1,4 +1,4 @@
-import { createBrowserRouter, redirect } from "react-router-dom";
+import { createBrowserRouter, redirect } from "react-router";
 import EditorView from "./views/editor";
 import HomeView from "./views/home";
 
