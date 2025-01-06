@@ -12,19 +12,23 @@ import {
   injectStyles,
   renderDecorations,
 } from "@/lib/editor";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData } from "react-router";
 import { Awareness } from "y-protocols/awareness";
+import { PermanentUserData } from "yjs";
 import { setUpMonacoBinding, setUpWebSocketProvider } from "../utils";
 import "./editor.css";
 
 export default function Editor() {
-  const { username, colour } = useLoaderData() as {
+  const { username, colour } = useLoaderData() satisfies {
     username: string;
     colour: string;
   };
+  console.log(username, colour);
   const [editor, setEditor] = useState<editor.IStandaloneCodeEditor>();
   const [monaco, setMonaco] = useState<Monaco>();
   const [awareness, setAwareness] = useState<Awareness>();
+  const [permanentUserData, setPermanentUserData] =
+    useState<PermanentUserData>();
   const [decorations, setDecorations] =
     useState<editor.IEditorDecorationsCollection>();
 
@@ -38,6 +42,9 @@ export default function Editor() {
       yDoc = new Y.Doc();
       const awareness = new Awareness(yDoc);
       setAwareness(awareness);
+      const permanentUserData = new PermanentUserData(yDoc);
+      permanentUserData.setUserMapping(yDoc, yDoc.clientID, username);
+      setPermanentUserData(permanentUserData);
 
       wsProvider = setUpWebSocketProvider({
         roomname: "editor-room",
@@ -81,7 +88,9 @@ export default function Editor() {
     awareness.on("change", () => {
       if (decorations) {
         let states = [...awareness.getStates().values()] as AwarenessState[];
-        states = states.filter((state) => state.user.name !== username);
+        states = states.filter(
+          (state) => state.user && state.user.name !== username
+        );
 
         injectStyles(awarenessToStyle(states));
 
@@ -98,6 +107,17 @@ export default function Editor() {
     },
     []
   );
+
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
 
   return (
     <MonacoEditor
