@@ -36,13 +36,17 @@ export function setUpMonacoBinding({
   editor,
   doc,
   provider,
+  initialText,
 }: {
   editor: editor.IStandaloneCodeEditor;
   doc: Doc;
   provider: WebsocketProvider;
+  initialText?: string;
 }) {
   const yText = doc.getText("monaco");
   const model = editor.getModel() as editor.ITextModel;
+
+  if (initialText) yText.insert(0, initialText);
 
   return new MonacoBinding(yText, model, new Set([editor]), provider.awareness);
 }

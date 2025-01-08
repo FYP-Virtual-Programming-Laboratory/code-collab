@@ -18,12 +18,15 @@ import { PermanentUserData } from "yjs";
 import { setUpMonacoBinding, setUpWebSocketProvider } from "../utils";
 import "./editor.css";
 
-export default function Editor() {
+type EditorProps = {
+  initialContent?: string;
+};
+
+export default function Editor({ initialContent = "" }: Readonly<EditorProps>) {
   const { username, colour } = useLoaderData() satisfies {
     username: string;
     colour: string;
   };
-  console.log(username, colour);
   const [editor, setEditor] = useState<editor.IStandaloneCodeEditor>();
   const [monaco, setMonaco] = useState<Monaco>();
   const [awareness, setAwareness] = useState<Awareness>();
@@ -55,6 +58,7 @@ export default function Editor() {
         editor,
         doc: yDoc,
         provider: wsProvider,
+        initialText: initialContent,
       });
       setDecorations(editor.createDecorationsCollection());
 
@@ -65,7 +69,7 @@ export default function Editor() {
         yDoc?.destroy();
       };
     }
-  }, [colour, editor, monaco, username]);
+  }, [colour, editor, initialContent, monaco, username]);
 
   useEffect(() => {
     // Set up awareness to share user, cursor and selection data.
