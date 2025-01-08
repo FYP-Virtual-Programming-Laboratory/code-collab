@@ -1,4 +1,10 @@
-import { ChevronDownIcon, ChevronRightIcon } from "@radix-ui/react-icons";
+import {
+  ChevronDown,
+  ChevronRight,
+  File,
+  FolderClosed,
+  FolderOpen,
+} from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { FileNode, Node, NodeType, sortNodes } from "../lib/file-tree";
 import { FileTreeContext } from "./file-tree.context";
@@ -25,7 +31,24 @@ function DirTreeItem({
       onClick={onClick}
     >
       {node.nodeType() === NodeType.DIR && (
-        <>{isExpanded ? <ChevronDownIcon /> : <ChevronRightIcon />}</>
+        <>
+          {isExpanded ? (
+            <ChevronDown size={"1em"} />
+          ) : (
+            <ChevronRight size={"1em"} />
+          )}
+        </>
+      )}
+      {node.nodeType() === NodeType.DIR ? (
+        <>
+          {isExpanded ? (
+            <FolderOpen size={"1em"} />
+          ) : (
+            <FolderClosed size={"1em"} />
+          )}
+        </>
+      ) : (
+        <File size={"1em"} />
       )}
       {node.getName()}
     </button>
