@@ -1,13 +1,7 @@
-import { getFiles } from "@/mocks";
 import { ChevronDownIcon, ChevronRightIcon } from "@radix-ui/react-icons";
-import { useEffect, useState } from "react";
-import {
-  createFileTree,
-  FileNode,
-  Node,
-  NodeType,
-  sortNodes,
-} from "../lib/explorer";
+import { useContext, useEffect, useState } from "react";
+import { FileNode, Node, NodeType, sortNodes } from "../lib/file-tree";
+import { FileTreeContext } from "./file-tree.context";
 import { Separator } from "./ui/separator";
 
 function DirTreeItem({
@@ -90,12 +84,14 @@ function DirTree({
 }
 
 export default function Explorer() {
+  const fileTree = useContext(FileTreeContext);
+
   return (
     <div className="">
       <h1 className="uppercase px-4 py-2 text-sm leading-none">Explorer</h1>
       <Separator />
       <ul>
-        <DirTree node={createFileTree(getFiles())} />
+        <DirTree node={fileTree} />
       </ul>
     </div>
   );
