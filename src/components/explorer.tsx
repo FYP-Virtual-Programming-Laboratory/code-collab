@@ -8,6 +8,7 @@ import {
 import { useContext, useEffect, useState } from "react";
 import { FileNode, Node, NodeType, sortNodes } from "../lib/file-tree";
 import { FileTreeContext } from "./file-tree.context";
+import { OpenFilesContext } from "./open-files.context";
 import { Separator } from "./ui/separator";
 
 function DirTreeItem({
@@ -62,6 +63,7 @@ function DirTree({
   const [isExpanded, setIsExpanded] = useState(
     !!node.meta.lastIsExpanded || false
   );
+  const { openFile } = useContext(OpenFilesContext);
 
   useEffect(() => {
     return () => {
@@ -72,7 +74,11 @@ function DirTree({
   if (node instanceof FileNode) {
     return (
       <li key={node.getName()}>
-        <DirTreeItem node={node} depth={depth} />
+        <DirTreeItem
+          node={node}
+          depth={depth}
+          onClick={() => openFile(node.getId())}
+        />
       </li>
     );
   }
@@ -107,14 +113,16 @@ function DirTree({
 }
 
 export default function Explorer() {
-  const fileTree = useContext(FileTreeContext);
+  const { tree } = useContext(FileTreeContext);
 
   return (
     <div className="">
-      <h1 className="uppercase px-4 py-2 text-sm leading-none">Explorer</h1>
+      <h1 className="min-h-9 m-0 inline-flex items-center uppercase px-4 py-2 text-sm leading-none">
+        Explorer
+      </h1>
       <Separator />
       <ul>
-        <DirTree node={fileTree} />
+        <DirTree node={tree} />
       </ul>
     </div>
   );
