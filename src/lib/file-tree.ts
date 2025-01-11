@@ -21,6 +21,10 @@ export abstract class Node {
    * The keys are strings and the values can be of any type.
    */
   public meta: Record<string, unknown> = {};
+  /**
+   * A unique identifier for the node.
+   */
+  private readonly id: string;
 
   /**
    * Creates an instance of Node.
@@ -30,7 +34,17 @@ export abstract class Node {
   constructor(
     protected readonly name: string,
     protected parent: Node | null = null
-  ) {}
+  ) {
+    this.id = Math.random().toString(36).substring(2, 9);
+  }
+
+  /**
+   * Gets the unique identifier of the node.
+   * @returns The unique identifier of the node.
+   */
+  getId() {
+    return this.id;
+  }
 
   /**
    * Gets the name of the node.
@@ -38,6 +52,19 @@ export abstract class Node {
    */
   getName() {
     return this.name;
+  }
+
+  /**
+   * Gets the path of the node.
+   * @returns The path of the node.
+   * @example ["root", "dir1", "dir2", "file.ext"]
+   */
+  getPath(): string[] {
+    if (this.parent === null) {
+      return [];
+    }
+
+    return [...this.parent.getPath(), this.name];
   }
 
   /**
@@ -192,7 +219,7 @@ export class DirNode extends Node {
 }
 
 export function createFileTree(files: { name: string; content: string }[]) {
-  const rootNode = new DirNode("/");
+  const rootNode = new DirNode("");
 
   files.forEach((file) => {
     const parts = file.name.split("/");
@@ -212,6 +239,23 @@ export function createFileTree(files: { name: string; content: string }[]) {
   return rootNode;
 }
 
+export function initFileCache(root: DirNode) {
+  const cache: Record<string, FileNode> = {};
+
+  function traverse(node: Node) {
+    if (node instanceof FileNode) {
+      cache[node.getId()] = node;
+    } else {
+      node.getChildren().forEach(traverse);
+    }
+  }
+
+  traverse(root);
+
+  return cache;
+}
+
+/* TODO: Improve by using better suited data structure in `Node` class. */
 export function sortNodes(nodes: Node[]) {
   return nodes.sort((a, b) => {
     if (a instanceof FileNode && b instanceof DirNode) {
