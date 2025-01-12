@@ -1,3 +1,5 @@
+import { useAppDispatch } from "@/app/hooks";
+import { fileOpened } from "@/features/opened-files.slice";
 import {
   ChevronDown,
   ChevronRight,
@@ -8,7 +10,6 @@ import {
 import { useContext, useEffect, useState } from "react";
 import { FileNode, Node, NodeType, sortNodes } from "../lib/file-tree";
 import { FileTreeContext } from "./file-tree.context";
-import { OpenFilesContext } from "./open-files.context";
 import { Separator } from "./ui/separator";
 
 function DirTreeItem({
@@ -63,7 +64,7 @@ function DirTree({
   const [isExpanded, setIsExpanded] = useState(
     !!node.meta.lastIsExpanded || false
   );
-  const { openFile } = useContext(OpenFilesContext);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     return () => {
@@ -77,7 +78,7 @@ function DirTree({
         <DirTreeItem
           node={node}
           depth={depth}
-          onClick={() => openFile(node.getId())}
+          onClick={() => dispatch(fileOpened(node.getId()))}
         />
       </li>
     );
