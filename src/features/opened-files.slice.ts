@@ -43,6 +43,11 @@ const openedFilesSlice = createSlice({
         } else if (action.payload === state.files.length) {
           state.activeFileIdx = Math.max(0, action.payload - 1);
         }
+      } else if (
+        state.activeFileIdx &&
+        state.activeFileIdx >= state.files.length
+      ) {
+        state.activeFileIdx = state.files.length - 1;
       }
     },
     fileActivated: (state, action: PayloadAction<number>) => {
