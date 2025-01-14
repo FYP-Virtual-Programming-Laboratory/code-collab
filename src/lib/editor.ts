@@ -1,14 +1,6 @@
 import { TinyColor } from "@ctrl/tinycolor";
 import { editor, Position, Range, Selection } from "monaco-editor";
-
-export type AwarenessState = {
-  user: {
-    name: string;
-    colour: string;
-  };
-  cursor?: Position;
-  selection?: Selection;
-};
+import { AwarenessState } from "./y-objects";
 
 function cursorToDecoration(cursor: Position, username: string) {
   return {

@@ -1,4 +1,7 @@
+import { editor, Uri } from "monaco-editor";
+import { MonacoBinding } from "y-monaco";
 import { ignore } from "./utils";
+import { awareness, yDoc } from "./y-objects";
 
 export type NodeType = "file" | "dir";
 
@@ -57,14 +60,14 @@ export abstract class Node {
   /**
    * Gets the path of the node.
    * @returns The path of the node.
-   * @example ["root", "dir1", "dir2", "file.ext"]
+   * @example "root/dir1/dir2/file.ext"
    */
-  getPath(): string[] {
+  getPath(): string {
     if (this.parent === null) {
-      return [];
+      return "";
     }
 
-    return [...this.parent.getPath(), this.name];
+    return this.parent.getPath() + "/" + this.name;
   }
 
   /**
@@ -155,14 +158,40 @@ export abstract class Node {
  * Extends the base Node class and includes file-specific functionality.
  */
 export class FileNode extends Node {
+  private readonly binding: MonacoBinding;
+
   /**
-   * Creates an instance of FileNode.
+   * Creates an instance of FileNode. 
+   
    * @param name - The name of the file node.
    * @param content - The content of the file node.
    * @param parent - The optional parent node.
    */
   constructor(name: string, private readonly content: string, parent?: Node) {
     super(name, parent);
+
+    const uri = Uri.parse("file://" + this.getPath());
+
+    const model =
+      editor.getModel(uri) ?? editor.createModel(content, undefined, uri);
+
+    yDoc.getText(this.getPath()).insert(0, content);
+
+    this.binding = new MonacoBinding(
+      yDoc.getText(this.getPath()),
+      model,
+      undefined,
+      awareness
+    );
+  }
+
+  /**
+   * Retrieves the current binding.
+   *
+   * @returns The current binding.
+   */
+  getBinding() {
+    return this.binding;
   }
 
   /**
@@ -211,7 +240,7 @@ export class DirNode extends Node {
   }
 
   getOrCreateFileChild(name: string, content: string) {
-    const node = new FileNode(name, content);
+    const node = new FileNode(name, content, this);
     this.addChild(node);
 
     return node;

@@ -78,7 +78,7 @@ function DirTree({
         <DirTreeItem
           node={node}
           depth={depth}
-          onClick={() => dispatch(fileOpened(node.getId()))}
+          onClick={() => dispatch(fileOpened({ fileId: node.getId() }))}
         />
       </li>
     );

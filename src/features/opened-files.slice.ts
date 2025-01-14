@@ -17,8 +17,8 @@ const openedFilesSlice = createSlice({
   name: "openedFiles",
   initialState,
   reducers: {
-    fileOpened: (state, action: PayloadAction<string>) => {
-      const idx = state.files.indexOf(action.payload);
+    fileOpened: (state, action: PayloadAction<{ fileId: string }>) => {
+      const idx = state.files.indexOf(action.payload.fileId);
 
       if (idx !== -1) {
         // File is already open
@@ -26,22 +26,25 @@ const openedFilesSlice = createSlice({
         return;
       }
 
-      state.files.push(action.payload);
+      state.files.push(action.payload.fileId);
       state.activeFileIdx = state.files.length - 1;
     },
-    fileClosed: (state, action: PayloadAction<number>) => {
-      if (action.payload < 0 || action.payload >= state.files.length) {
+    fileClosed: (state, action: PayloadAction<{ index: number }>) => {
+      if (
+        action.payload.index < 0 ||
+        action.payload.index >= state.files.length
+      ) {
         // File is not open
         return;
       }
 
-      state.files.splice(action.payload, 1);
+      state.files.splice(action.payload.index, 1);
 
-      if (state.activeFileIdx === action.payload) {
+      if (state.activeFileIdx === action.payload.index) {
         if (state.files.length === 0) {
           state.activeFileIdx = null;
-        } else if (action.payload === state.files.length) {
-          state.activeFileIdx = Math.max(0, action.payload - 1);
+        } else if (action.payload.index === state.files.length) {
+          state.activeFileIdx = Math.max(0, action.payload.index - 1);
         }
       } else if (
         state.activeFileIdx &&
@@ -50,13 +53,16 @@ const openedFilesSlice = createSlice({
         state.activeFileIdx = state.files.length - 1;
       }
     },
-    fileActivated: (state, action: PayloadAction<number>) => {
-      if (action.payload < 0 || action.payload >= state.files.length) {
+    fileActivated: (state, action: PayloadAction<{ index: number }>) => {
+      if (
+        action.payload.index < 0 ||
+        action.payload.index >= state.files.length
+      ) {
         // File is not open
         return;
       }
 
-      state.activeFileIdx = action.payload;
+      state.activeFileIdx = action.payload.index;
     },
   },
 });

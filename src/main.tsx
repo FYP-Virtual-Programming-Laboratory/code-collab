@@ -6,11 +6,14 @@ import { store } from "./app/store";
 import router from "./router";
 
 import "./index.css";
+import { initLoader } from "./lib/monaco-loader";
 
-createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <Provider store={store}>
-      <RouterProvider router={router} />
-    </Provider>
-  </StrictMode>
-);
+initLoader().then(() => {
+  createRoot(document.getElementById("root")!).render(
+    <StrictMode>
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
+    </StrictMode>
+  );
+});
