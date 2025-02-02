@@ -10,7 +10,8 @@ import {
   injectStyles,
   renderDecorations,
 } from "@/lib/editor";
-import { FileNode } from "@/lib/file-tree";
+import { FileNode } from "@/lib/file-node";
+import { cn } from "@/lib/utils";
 import { awareness, AwarenessState, yDoc } from "@/lib/y-objects";
 import { useLoaderData } from "react-router";
 import "./editor.css";
@@ -30,7 +31,7 @@ export default function Editor({ file }: Readonly<EditorProps>) {
     useState<editor.IEditorDecorationsCollection>();
 
   useEffect(() => {
-    if (!file || !monacoEditor) return;
+    if (!monacoEditor || !file) return;
 
     monacoEditor.setModel(file.getBinding().monacoModel);
   }, [monacoEditor, file]);
@@ -98,14 +99,13 @@ export default function Editor({ file }: Readonly<EditorProps>) {
     };
   }, []);
 
-  if (!file) return null;
-
   return (
     <MonacoEditor
       height="90vh"
       defaultLanguage="javascript"
       onMount={handleOnMount}
       loading=""
+      className={cn({ hidden: !file })}
     />
   );
 }

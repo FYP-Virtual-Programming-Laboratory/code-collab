@@ -1,5 +1,7 @@
 import { useAppDispatch } from "@/app/hooks";
 import { fileOpened } from "@/features/opened-files.slice";
+import { AbstractNode, NodeType } from "@/lib/abstract-node";
+import { FileNode } from "@/lib/file-node";
 import {
   ChevronDown,
   ChevronRight,
@@ -8,7 +10,7 @@ import {
   FolderOpen,
 } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
-import { FileNode, Node, NodeType, sortNodes } from "../lib/file-tree";
+import { sortNodes } from "../lib/file-tree";
 import { FileTreeContext } from "./file-tree.context";
 import { Separator } from "./ui/separator";
 
@@ -18,7 +20,7 @@ function DirTreeItem({
   isExpanded = false,
   onClick,
 }: Readonly<{
-  node: Node;
+  node: AbstractNode;
   depth: number;
   isExpanded?: boolean;
   onClick?: () => void;
@@ -60,7 +62,7 @@ function DirTreeItem({
 function DirTree({
   node,
   depth = 0,
-}: Readonly<{ node: Node; depth?: number }>) {
+}: Readonly<{ node: AbstractNode; depth?: number }>) {
   const [isExpanded, setIsExpanded] = useState(
     !!node.meta.lastIsExpanded || false
   );
