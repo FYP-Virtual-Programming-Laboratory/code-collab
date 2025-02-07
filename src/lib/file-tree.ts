@@ -30,7 +30,7 @@ export function buildTree(
 // function diffTree(oldTree: DirNode, newTree: DirNode) {}
 
 export function initFileCache(root: DirNode) {
-  const cache: Record<string, FileNode> = {};
+  const cache: Record<number, FileNode> = {};
 
   function traverse(node: AbstractNode) {
     if (node instanceof FileNode) {
