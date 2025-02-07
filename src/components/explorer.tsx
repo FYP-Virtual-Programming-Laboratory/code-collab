@@ -1,5 +1,6 @@
 import { useAppDispatch } from "@/app/hooks";
 import { fileOpened } from "@/features/opened-files.slice";
+import { useContextMenu } from "@/hooks/explorer";
 import { AbstractNode, NodeType } from "@/lib/abstract-node";
 import { FileNode } from "@/lib/file-node";
 import {
@@ -12,6 +13,11 @@ import {
 import { useContext, useEffect, useState } from "react";
 import { sortNodes } from "../lib/file-tree";
 import { FileTreeContext } from "./file-tree.context";
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuTrigger,
+} from "./ui/context-menu";
 import { Separator } from "./ui/separator";
 
 function DirTreeItem({
@@ -25,37 +31,44 @@ function DirTreeItem({
   isExpanded?: boolean;
   onClick?: () => void;
 }>) {
+  const contextMenu = useContextMenu(node);
+
   const padding =
     0.5 + (depth - 1) * 0.5 + (node.nodeType() === NodeType.FILE ? 1.2 : 0);
 
   return (
-    <button
-      className="inline-flex gap-1 items-center hover:bg-gray-300 w-full py-0.5"
-      style={{ paddingLeft: `${padding}em` }}
-      onClick={onClick}
-    >
-      {node.nodeType() === NodeType.DIR && (
-        <>
-          {isExpanded ? (
-            <ChevronDown size={"1em"} />
-          ) : (
-            <ChevronRight size={"1em"} />
+    <ContextMenu>
+      <ContextMenuTrigger>
+        <button
+          className="inline-flex gap-1 items-center hover:bg-gray-300 w-full py-0.5"
+          style={{ paddingLeft: `${padding}em` }}
+          onClick={onClick}
+        >
+          {node.nodeType() === NodeType.DIR && (
+            <>
+              {isExpanded ? (
+                <ChevronDown size={"1em"} />
+              ) : (
+                <ChevronRight size={"1em"} />
+              )}
+            </>
           )}
-        </>
-      )}
-      {node.nodeType() === NodeType.DIR ? (
-        <>
-          {isExpanded ? (
-            <FolderOpen size={"1em"} />
+          {node.nodeType() === NodeType.DIR ? (
+            <>
+              {isExpanded ? (
+                <FolderOpen size={"1em"} />
+              ) : (
+                <FolderClosed size={"1em"} />
+              )}
+            </>
           ) : (
-            <FolderClosed size={"1em"} />
+            <File size={"1em"} />
           )}
-        </>
-      ) : (
-        <File size={"1em"} />
-      )}
-      {node.getName()}
-    </button>
+          {node.getName()}
+        </button>
+      </ContextMenuTrigger>
+      <ContextMenuContent>{contextMenu}</ContextMenuContent>
+    </ContextMenu>
   );
 }
 
@@ -119,14 +132,14 @@ export default function Explorer() {
   const { tree } = useContext(FileTreeContext);
 
   return (
-    <div className="">
+    <div className="flex flex-col h-full">
       <h1 className="min-h-9 m-0 inline-flex items-center uppercase px-4 py-2 text-sm leading-none">
         Explorer
       </h1>
       <Separator />
-      <ul>
+      <div className="flex-grow">
         <DirTree node={tree} />
-      </ul>
+      </div>
     </div>
   );
 }
