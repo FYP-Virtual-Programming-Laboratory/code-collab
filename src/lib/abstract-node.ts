@@ -19,7 +19,7 @@ export abstract class AbstractNode {
 
   /**
    * Creates an instance of Node.
-   * @param id - A unique identifier for the node.
+   * @param id - A unique identifier for the node. The same as the file id.
    * @param name - The name of the node.
    * @param parent - The parent node, if any.
    */
@@ -31,7 +31,7 @@ export abstract class AbstractNode {
   ) {}
 
   /**
-   * Gets the unique identifier of the node.
+   * Gets the unique identifier of the node. The same as the file id.
    * @returns The unique identifier of the node.
    */
   getId() {

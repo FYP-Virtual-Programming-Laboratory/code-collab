@@ -13,7 +13,6 @@ import {
 import { FileNode } from "@/lib/file-node";
 import { cn } from "@/lib/utils";
 import { awareness, AwarenessState, yDoc } from "@/lib/y-objects";
-import { useLoaderData } from "react-router";
 import "./editor.css";
 
 type EditorProps = {
@@ -21,10 +20,10 @@ type EditorProps = {
 };
 
 export default function Editor({ file }: Readonly<EditorProps>) {
-  const { username, colour } = useLoaderData() satisfies {
-    username: string;
-    colour: string;
-  };
+  const profile = JSON.parse(localStorage.getItem("profile") || "{}");
+  const username = profile.username;
+  const colour = profile.colour;
+
   const [monacoEditor, setMonacoEditor] =
     useState<editor.IStandaloneCodeEditor>();
   const [decorations, setDecorations] =

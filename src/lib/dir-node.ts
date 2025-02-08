@@ -17,8 +17,8 @@ export class DirNode extends AbstractNode {
     return node;
   }
 
-  getOrCreateFileChild(id: number, name: string, content: string) {
-    const node = new FileNode(id, name, content, this.level, this);
+  getOrCreateFileChild(id: number, name: string) {
+    const node = new FileNode(id, name, this.level, this);
     this.addChild(node);
 
     return node;

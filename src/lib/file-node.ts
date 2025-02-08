@@ -17,22 +17,15 @@ export class FileNode extends AbstractNode {
    * Creates an instance of FileNode.
    
    * @param name - The name of the file node.
-   * @param content - The content of the file node.
    * @param parent - The optional parent node.
    */
-  constructor(
-    id: number,
-    name: string,
-    private readonly content: string,
-    level: number,
-    parent: AbstractNode
-  ) {
+  constructor(id: number, name: string, level: number, parent: AbstractNode) {
     super(id, name, level, parent);
 
     const uri = Uri.parse("file://" + this.getPath());
 
     const model =
-      editor.getModel(uri) ?? editor.createModel(content, undefined, uri);
+      editor.getModel(uri) ?? editor.createModel("", undefined, uri);
 
     yDoc.getText(this.getPath());
 
@@ -58,7 +51,7 @@ export class FileNode extends AbstractNode {
    * @returns The content of the file node.
    */
   getContent() {
-    return this.content;
+    return this.binding.ytext.toString();
   }
 
   /**

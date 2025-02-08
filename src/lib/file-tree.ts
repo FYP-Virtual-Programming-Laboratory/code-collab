@@ -15,7 +15,7 @@ export function buildTree(
       const part = parts[i];
 
       if (i === parts.length - 1) {
-        currentNode.getOrCreateFileChild(file.id, part, file.content);
+        currentNode.getOrCreateFileChild(file.id, part);
       } else {
         currentNode = currentNode.getOrCreateDirChild(file.id, part);
       }

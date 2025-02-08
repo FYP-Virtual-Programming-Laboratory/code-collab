@@ -23,9 +23,9 @@ const LIST_FILES = gql(`
   }
 `);
 
-export default function EditorView() {
+export default function EditorView({ projectId }: { projectId: number }) {
   const { data } = useQuery(LIST_FILES, {
-    variables: { projectId: 1 },
+    variables: { projectId },
     fetchPolicy: "network-only",
     ssr: false,
   });
