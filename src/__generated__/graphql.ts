@@ -35,30 +35,22 @@ export type ContributionStats = {
   contributorId: Scalars['Int']['output'];
 };
 
+export type Contributions = {
+  __typename?: 'Contributions';
+  contributionStats: Array<ContributionStats>;
+  contributorIds: Array<Scalars['Int']['output']>;
+};
+
 export type File = {
   __typename?: 'File';
   content: Scalars['String']['output'];
+  contributions: Contributions;
   createdAt: Scalars['DateTime']['output'];
   id: Scalars['Int']['output'];
   lastModified: Scalars['DateTime']['output'];
   path: Scalars['String']['output'];
   /** File size in bytes */
   size?: Maybe<Scalars['Int']['output']>;
-  versions: Array<Version>;
-};
-
-export type FileMeta = {
-  __typename?: 'FileMeta';
-  content: Scalars['String']['output'];
-  contributionStats: Array<ContributionStats>;
-  contributorIds: Array<Scalars['Int']['output']>;
-  createdAt: Scalars['DateTime']['output'];
-  id: Scalars['Int']['output'];
-  lastModified: Scalars['DateTime']['output'];
-  path: Scalars['String']['output'];
-  /** File size in bytes */
-  size?: Maybe<Scalars['Int']['output']>;
-  versions: Array<Version>;
 };
 
 export type Mutation = {
@@ -66,7 +58,11 @@ export type Mutation = {
   addProjectMember: Scalars['Boolean']['output'];
   /** Create a new project. */
   createProject: Project;
+  /** Create a new file. Returns the new file */
+  newFile: File;
   removeProjectMember: Scalars['Boolean']['output'];
+  /** Update a file's content. Returns the file. */
+  updateFile: File;
   updateProject: Scalars['Boolean']['output'];
 };
 
@@ -85,9 +81,24 @@ export type MutationCreateProjectArgs = {
 };
 
 
+export type MutationNewFileArgs = {
+  filePath: Scalars['String']['input'];
+  initialContent?: InputMaybe<Scalars['String']['input']>;
+  projectId: Scalars['Int']['input'];
+};
+
+
 export type MutationRemoveProjectMemberArgs = {
   projectId: Scalars['Int']['input'];
   userId: Scalars['Int']['input'];
+};
+
+
+export type MutationUpdateFileArgs = {
+  fileId: Scalars['Int']['input'];
+  newContent: Scalars['String']['input'];
+  projectId: Scalars['Int']['input'];
+  yDocUpdates: Scalars['String']['input'];
 };
 
 
@@ -104,14 +115,11 @@ export type Project = {
   id: Scalars['Int']['output'];
   members: Array<User>;
   name: Scalars['String']['output'];
+  yDocUpdates: Scalars['String']['output'];
 };
 
 export type Query = {
   __typename?: 'Query';
-  /** Get file content by file `id`. Returns `null` if file with the id does not exist. */
-  getFileContent?: Maybe<Scalars['String']['output']>;
-  /** Get file metadata by file `id`. Returns `null` if file with the id does not exist. */
-  getFileMeta?: Maybe<FileMeta>;
   /** Get all versions of a file by file `id`. Returns an empty array if file with the id does not exist. */
   getFileVersions: Array<Version>;
   /** Find a project by its `id`. If `null` is returned, then the project could not be found. */
@@ -124,16 +132,6 @@ export type Query = {
   getUsers: Array<User>;
   /** List all files in a project. Returns an empty array if no files are found or if project does not exist. */
   listFiles: Array<File>;
-};
-
-
-export type QueryGetFileContentArgs = {
-  fileId: Scalars['Int']['input'];
-};
-
-
-export type QueryGetFileMetaArgs = {
-  fileId: Scalars['Int']['input'];
 };
 
 
@@ -183,6 +181,13 @@ export type Version = {
   id: Scalars['Int']['output'];
 };
 
+export type GetProjectBySessionIdQueryVariables = Exact<{
+  sessionId: Scalars['String']['input'];
+}>;
+
+
+export type GetProjectBySessionIdQuery = { __typename?: 'Query', getProjectBySessionId?: { __typename?: 'Project', id: number, name: string, createdAt: any, yDocUpdates: string } | null };
+
 export type ListFilesQueryVariables = Exact<{
   projectId: Scalars['Int']['input'];
 }>;
@@ -191,4 +196,5 @@ export type ListFilesQueryVariables = Exact<{
 export type ListFilesQuery = { __typename?: 'Query', listFiles: Array<{ __typename?: 'File', id: number, path: string, content: string }> };
 
 
+export const GetProjectBySessionIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetProjectBySessionId"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"sessionId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getProjectBySessionId"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"sessionId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"sessionId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"yDocUpdates"}}]}}]}}]} as unknown as DocumentNode<GetProjectBySessionIdQuery, GetProjectBySessionIdQueryVariables>;
 export const ListFilesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ListFiles"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"projectId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"listFiles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"projectId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"projectId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"path"}},{"kind":"Field","name":{"kind":"Name","value":"content"}}]}}]}}]} as unknown as DocumentNode<ListFilesQuery, ListFilesQueryVariables>;
