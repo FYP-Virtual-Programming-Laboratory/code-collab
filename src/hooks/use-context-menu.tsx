@@ -7,7 +7,7 @@ import { DirNode } from "@/lib/dir-node";
 import { FileNode } from "@/lib/file-node";
 import { JSX, useMemo } from "react";
 
-export function useContextMenu(node: AbstractNode) {
+export default function useContextMenu(node: AbstractNode) {
   const contextMenu = useMemo(() => {
     const isFile = node instanceof FileNode;
     const isDir = node instanceof DirNode;

@@ -1,9 +1,11 @@
+import { YObjects } from "@/contexts/y-objects-context";
 import { AbstractNode } from "./abstract-node";
 import { DirNode } from "./dir-node";
 import { FileNode } from "./file-node";
 
 export function buildTree(
-  files: { id: number; path: string; content: string }[]
+  files: { id: number; path: string; content: string }[],
+  yObjects: YObjects
 ) {
   const rootNode = new DirNode(0, "", 0);
 
@@ -15,7 +17,7 @@ export function buildTree(
       const part = parts[i];
 
       if (i === parts.length - 1) {
-        currentNode.getOrCreateFileChild(file.id, part);
+        currentNode.getOrCreateFileChild(file.id, part, yObjects);
       } else {
         currentNode = currentNode.getOrCreateDirChild(file.id, part);
       }

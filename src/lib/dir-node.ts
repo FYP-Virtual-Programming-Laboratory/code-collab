@@ -1,3 +1,4 @@
+import { YObjects } from "@/contexts/y-objects-context";
 import { AbstractNode, NodeType } from "./abstract-node";
 import { FileNode } from "./file-node";
 
@@ -17,8 +18,8 @@ export class DirNode extends AbstractNode {
     return node;
   }
 
-  getOrCreateFileChild(id: number, name: string) {
-    const node = new FileNode(id, name, this.level, this);
+  getOrCreateFileChild(id: number, name: string, yObjects: YObjects) {
+    const node = new FileNode(id, name, this.level, this, yObjects);
     this.addChild(node);
 
     return node;

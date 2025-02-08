@@ -4,8 +4,8 @@ import { applyUpdateV2 } from "yjs";
 import { gql } from "./__generated__";
 import { useAppDispatch } from "./app/hooks";
 import { projectIdSet } from "./features/global.slice";
+import { useYObjects } from "./hooks/use-y-objects";
 import { base64ToBytes } from "./lib/utils";
-import { yDoc } from "./lib/y-objects";
 import EditorView from "./views/editor";
 
 const GET_PROJECT_BY_SESSION_ID = gql(`
@@ -26,16 +26,14 @@ export default function ProjectFetcher({ sessionId }: { sessionId: string }) {
     ssr: false,
   });
   const dispatch = useAppDispatch();
+  const { doc } = useYObjects();
 
   useEffect(() => {
     if (data && data.getProjectBySessionId) {
       dispatch(projectIdSet({ projectId: data.getProjectBySessionId.id }));
-      applyUpdateV2(
-        yDoc,
-        base64ToBytes(data.getProjectBySessionId.yDocUpdates)
-      );
+      applyUpdateV2(doc, base64ToBytes(data.getProjectBySessionId.yDocUpdates));
     }
-  }, [data, dispatch]);
+  }, [data, dispatch, doc]);
 
   if (!data || !data.getProjectBySessionId) return null;
 

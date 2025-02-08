@@ -7,6 +7,7 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
+import { useYObjects } from "@/hooks/use-y-objects";
 import { DirNode } from "@/lib/dir-node";
 import { FileNode } from "@/lib/file-node";
 import { buildTree, initFileCache } from "@/lib/file-tree";
@@ -31,14 +32,15 @@ export default function EditorView({ projectId }: { projectId: number }) {
   });
   const [fileTree, setFileTree] = useState<DirNode>();
   const [fileCache, setFileCache] = useState<Record<string, FileNode>>({});
+  const yObjects = useYObjects();
 
   useEffect(() => {
     if (!fileTree && data) {
-      const fileTree = buildTree(data.listFiles);
+      const fileTree = buildTree(data.listFiles, yObjects);
       setFileTree(fileTree);
       setFileCache(initFileCache(fileTree));
     }
-  }, [data, fileTree]);
+  }, [data, fileTree, yObjects]);
 
   return (
     <FileTreeContext.Provider

@@ -1,9 +1,9 @@
+import { YObjects } from "@/contexts/y-objects-context";
 import { Uri, editor } from "monaco-editor";
 import { MonacoBinding } from "y-monaco";
 import { AbstractNode, NodeType } from "./abstract-node";
 import { DirNode } from "./dir-node";
 import { ignore } from "./utils";
-import { awareness, yDoc } from "./y-objects";
 
 /**
  * Represents a file node in the explorer.
@@ -19,18 +19,25 @@ export class FileNode extends AbstractNode {
    * @param name - The name of the file node.
    * @param parent - The optional parent node.
    */
-  constructor(id: number, name: string, level: number, parent: AbstractNode) {
+  constructor(
+    id: number,
+    name: string,
+    level: number,
+    parent: AbstractNode,
+    yObjects: YObjects
+  ) {
     super(id, name, level, parent);
 
+    const { awareness, doc } = yObjects;
     const uri = Uri.parse("file://" + this.getPath());
 
     const model =
       editor.getModel(uri) ?? editor.createModel("", undefined, uri);
 
-    yDoc.getText(this.getPath());
+    doc.getText(this.getPath());
 
     this.binding = new MonacoBinding(
-      yDoc.getText(this.getPath()),
+      doc.getText(this.getPath()),
       model,
       undefined,
       awareness
@@ -82,8 +89,14 @@ export class FileNode extends AbstractNode {
   getOrCreateDirChild(_id: number, _name: string): DirNode {
     throw new Error("File nodes cannot have children");
   }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  getOrCreateFileChild(_id: number, _name: string, _content: string): FileNode {
+  getOrCreateFileChild(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _id: number,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _name: string,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _yObjects: YObjects
+  ): FileNode {
     throw new Error("File nodes cannot have children");
   }
 }

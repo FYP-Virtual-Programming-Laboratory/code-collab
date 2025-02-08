@@ -1,3 +1,4 @@
+import { YObjects } from "@/contexts/y-objects-context";
 import { DirNode } from "./dir-node";
 import { FileNode } from "./file-node";
 
@@ -139,7 +140,7 @@ export abstract class AbstractNode {
   abstract getOrCreateFileChild(
     id: number,
     name: string,
-    content: string
+    yObjects: YObjects
   ): FileNode;
 }
 export type NodeType = "file" | "dir";
