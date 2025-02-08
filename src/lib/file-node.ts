@@ -34,7 +34,7 @@ export class FileNode extends AbstractNode {
     const model =
       editor.getModel(uri) ?? editor.createModel(content, undefined, uri);
 
-    yDoc.getText(this.getPath()).insert(0, content);
+    yDoc.getText(this.getPath());
 
     this.binding = new MonacoBinding(
       yDoc.getText(this.getPath()),
