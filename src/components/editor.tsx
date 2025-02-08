@@ -1,9 +1,8 @@
 import { Editor as MonacoEditor } from "@monaco-editor/react";
 import { editor } from "monaco-editor";
 import { useCallback, useEffect, useState } from "react";
-import { WebsocketProvider } from "y-websocket";
 
-import { setUpWebSocketProvider } from "@/lib/connections";
+import { useYObjects } from "@/hooks/use-y-objects";
 import {
   awarenessToDecorations,
   awarenessToStyle,
@@ -12,8 +11,8 @@ import {
 } from "@/lib/editor";
 import { FileNode } from "@/lib/file-node";
 import { cn } from "@/lib/utils";
-import { awareness, AwarenessState, yDoc } from "@/lib/y-objects";
 import "./editor.css";
+import { AwarenessState } from "./y-objects-provider";
 
 type EditorProps = {
   file: FileNode | null;
@@ -28,6 +27,7 @@ export default function Editor({ file }: Readonly<EditorProps>) {
     useState<editor.IStandaloneCodeEditor>();
   const [decorations, setDecorations] =
     useState<editor.IEditorDecorationsCollection>();
+  const { awareness } = useYObjects();
 
   useEffect(() => {
     if (!monacoEditor || !file) return;
@@ -36,23 +36,18 @@ export default function Editor({ file }: Readonly<EditorProps>) {
   }, [monacoEditor, file]);
 
   useEffect(() => {
-    let wsProvider: WebsocketProvider;
-
     if (monacoEditor) {
-      wsProvider = setUpWebSocketProvider("editor-room");
       setDecorations(monacoEditor.createDecorationsCollection());
 
       return () => {
         setDecorations(undefined);
-        wsProvider?.destroy();
-        yDoc?.destroy();
       };
     }
-  }, [colour, monacoEditor, username]);
+  }, [monacoEditor]);
 
   useEffect(() => {
     // Set up awareness to share user, cursor and selection data.
-    if (!awareness || !monacoEditor) return;
+    if (!monacoEditor) return;
 
     awareness.setLocalStateField("user", {
       name: username,
@@ -81,7 +76,7 @@ export default function Editor({ file }: Readonly<EditorProps>) {
         renderDecorations(decorations, modelDecorations);
       }
     });
-  }, [colour, decorations, monacoEditor, username]);
+  }, [awareness, colour, decorations, monacoEditor, username]);
 
   const handleOnMount = useCallback((e: editor.IStandaloneCodeEditor) => {
     setMonacoEditor(e);
