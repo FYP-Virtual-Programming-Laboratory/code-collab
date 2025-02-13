@@ -1,5 +1,5 @@
 import { useAppSelector } from "@/app/hooks";
-import { selectProjectId } from "@/features/global.slice";
+import { selectProfile, selectProjectId } from "@/features/global.slice";
 import { setUpWebSocketProvider } from "@/lib/connections";
 import { Position, Selection } from "monaco-editor";
 import { ReactNode, useEffect, useMemo } from "react";
@@ -21,6 +21,10 @@ export default function YObjectsProvider({
 }: {
   children: ReactNode;
 }) {
+  const profile = useAppSelector(selectProfile);
+  const username = profile.username;
+  const colour = profile.colour;
+
   const projectId = useAppSelector(selectProjectId);
   const doc = useMemo(() => new Doc(), []);
   const awareness = useMemo(() => new Awareness(doc), [doc]);

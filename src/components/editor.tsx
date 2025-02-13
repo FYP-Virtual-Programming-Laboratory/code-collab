@@ -2,6 +2,8 @@ import { Editor as MonacoEditor } from "@monaco-editor/react";
 import { editor } from "monaco-editor";
 import { useCallback, useEffect, useState } from "react";
 
+import { useAppSelector } from "@/app/hooks";
+import { selectProfile } from "@/features/global.slice";
 import { useYObjects } from "@/hooks/use-y-objects";
 import {
   awarenessToDecorations,
@@ -19,7 +21,7 @@ type EditorProps = {
 };
 
 export default function Editor({ file }: Readonly<EditorProps>) {
-  const profile = JSON.parse(localStorage.getItem("profile") || "{}");
+  const profile = useAppSelector(selectProfile);
   const username = profile.username;
   const colour = profile.colour;
 
