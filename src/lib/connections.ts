@@ -21,7 +21,19 @@ export function setUpWebSocketProvider(
   wsProvider.on(
     "status",
     (event: { status: "disconnected" | "connecting" | "connected" }) => {
-      console.log(event.status);
+      console.debug(event.status);
+
+      switch (event.status) {
+        case "connected":
+          console.debug("WebSocket connection established.");
+          break;
+        case "disconnected":
+          console.debug("WebSocket connection lost.");
+          break;
+        case "connecting":
+          console.debug("WebSocket is connecting...");
+          break;
+      }
     }
   );
 
