@@ -34,7 +34,9 @@ export class FileNode extends AbstractNode {
     const model =
       editor.getModel(uri) ?? editor.createModel("", undefined, uri);
 
-    doc.getText(this.getPath());
+    doc.getText(this.getPath()).observe((event) => {
+      console.log("FileNode observe", event.changes.delta);
+    });
 
     this.binding = new MonacoBinding(
       doc.getText(this.getPath()),

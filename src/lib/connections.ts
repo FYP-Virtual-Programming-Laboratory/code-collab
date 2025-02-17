@@ -1,4 +1,5 @@
 import { Awareness } from "y-protocols/awareness.js";
+import { WebrtcProvider } from "y-webrtc";
 import { WebsocketProvider } from "y-websocket";
 import { Doc } from "yjs";
 
@@ -21,8 +22,6 @@ export function setUpWebSocketProvider(
   wsProvider.on(
     "status",
     (event: { status: "disconnected" | "connecting" | "connected" }) => {
-      console.debug(event.status);
-
       switch (event.status) {
         case "connected":
           console.debug("WebSocket connection established.");
@@ -38,4 +37,31 @@ export function setUpWebSocketProvider(
   );
 
   return wsProvider;
+}
+
+export function setUpWebRTCProvider(
+  roomname: string,
+  yObjects: {
+    awareness: Awareness;
+    doc: Doc;
+  }
+) {
+  const { awareness, doc } = yObjects;
+  const webRtcProvider = new WebrtcProvider(roomname, doc, {
+    awareness,
+    signaling: ["ws://localhost:4444"],
+    password: "passybobo",
+  });
+  webRtcProvider.on("status", (event) => {
+    switch (event.connected) {
+      case true:
+        console.debug("WebRTC connection established.");
+        break;
+      case false:
+        console.debug("WebRTC connection lost.");
+        break;
+    }
+  });
+
+  return webRtcProvider;
 }

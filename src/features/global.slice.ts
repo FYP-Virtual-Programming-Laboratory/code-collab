@@ -3,7 +3,7 @@ import { random } from "@ctrl/tinycolor";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 function generateRandomName() {
-  return "user-" + Math.random().toString(36).substring(2, 9);
+  return "user_" + Math.random().toString(36).substring(2, 9);
 }
 
 export type Profile = {
@@ -26,12 +26,12 @@ if (!storedProfile) {
 
 type GlobalState = {
   profile: Profile;
-  projectId: number | null;
+  projectId: number;
 };
 
 const initialState: GlobalState = {
   profile: parsedProfile,
-  projectId: null,
+  projectId: 0,
 };
 
 const globalSlice = createSlice({

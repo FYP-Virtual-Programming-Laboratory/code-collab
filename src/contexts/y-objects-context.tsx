@@ -1,5 +1,6 @@
 import { createContext } from "react";
 import { Awareness } from "y-protocols/awareness.js";
+import { WebrtcProvider } from "y-webrtc";
 import { WebsocketProvider } from "y-websocket";
 import { Doc, PermanentUserData } from "yjs";
 
@@ -9,6 +10,7 @@ export type YObjects = {
   awareness: Awareness;
   userData: PermanentUserData;
   providers: {
-    websocket: WebsocketProvider;
+    websocket: WebsocketProvider | null;
+    webRtc: WebrtcProvider | null;
   };
 };

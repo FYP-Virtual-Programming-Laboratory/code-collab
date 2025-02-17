@@ -23,7 +23,6 @@ type EditorProps = {
 export default function Editor({ file }: Readonly<EditorProps>) {
   const profile = useAppSelector(selectProfile);
   const username = profile.username;
-  const colour = profile.colour;
 
   const [monacoEditor, setMonacoEditor] =
     useState<editor.IStandaloneCodeEditor>();
@@ -51,11 +50,6 @@ export default function Editor({ file }: Readonly<EditorProps>) {
     // Set up awareness to share user, cursor and selection data.
     if (!monacoEditor) return;
 
-    awareness.setLocalStateField("user", {
-      name: username,
-      colour,
-    });
-
     monacoEditor.onDidChangeCursorPosition((e) => {
       const position = e.position;
       awareness.setLocalStateField("cursor", position);
@@ -78,7 +72,7 @@ export default function Editor({ file }: Readonly<EditorProps>) {
         renderDecorations(decorations, modelDecorations);
       }
     });
-  }, [awareness, colour, decorations, monacoEditor, username]);
+  }, [awareness, decorations, monacoEditor, username]);
 
   const handleOnMount = useCallback((e: editor.IStandaloneCodeEditor) => {
     setMonacoEditor(e);

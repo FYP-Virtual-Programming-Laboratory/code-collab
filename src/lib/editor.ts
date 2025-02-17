@@ -1,6 +1,6 @@
+import { AwarenessState } from "@/components/y-objects-provider";
 import { TinyColor } from "@ctrl/tinycolor";
 import { editor, Position, Range, Selection } from "monaco-editor";
-import { AwarenessState } from "./y-objects";
 
 function cursorToDecoration(cursor: Position, username: string) {
   return {
@@ -78,7 +78,6 @@ export function awarenessToStyle(states: AwarenessState[]) {
       decorationStyles.push(
         `.my-cursor-${user.name}:hover::after { background-color: ${activeBgColour}; }`
       );
-      console.log(decorationStyles);
     }
     if (selection) {
       decorationStyles.push(
