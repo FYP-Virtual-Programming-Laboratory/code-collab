@@ -1,37 +1,23 @@
+import { User } from "@/__generated__/graphql";
 import type { RootState } from "@/app/store";
 import { random } from "@ctrl/tinycolor";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-function generateRandomName() {
-  return "user_" + Math.random().toString(36).substring(2, 9);
-}
 
 export type Profile = {
   username: string;
   colour: string;
 };
 
-const storedProfile = localStorage.getItem("profile");
-let parsedProfile: Profile;
-
-if (!storedProfile) {
-  parsedProfile = {
-    colour: random().toHexString(),
-    username: generateRandomName(),
-  };
-  localStorage.setItem("profile", JSON.stringify(parsedProfile));
-} else {
-  parsedProfile = JSON.parse(storedProfile) as Profile;
-}
-
 type GlobalState = {
-  profile: Profile;
-  projectId: number;
+  user?: User;
+  colour: string;
+  projectId?: number;
 };
 
 const initialState: GlobalState = {
-  profile: parsedProfile,
-  projectId: 0,
+  user: undefined,
+  colour: random().toHexString(),
+  projectId: undefined,
 };
 
 const globalSlice = createSlice({
@@ -41,16 +27,19 @@ const globalSlice = createSlice({
     projectIdSet: (state, action: PayloadAction<{ projectId: number }>) => {
       state.projectId = action.payload.projectId;
     },
-    profileSet: (state, action: PayloadAction<Profile>) => {
-      state.profile = action.payload;
+    userSet: (state, action: PayloadAction<User>) => {
+      state.user = action.payload;
     },
   },
 });
 
-export const { projectIdSet, profileSet } = globalSlice.actions;
+export const { projectIdSet, userSet } = globalSlice.actions;
 
 const globalReducer = globalSlice.reducer;
 export default globalReducer;
 
-export const selectProjectId = (state: RootState) => state.global.projectId;
-export const selectProfile = (state: RootState) => state.global.profile;
+export const selectProjectId = (state: RootState) => state.global.projectId!; // Guaranteed to be available
+export const selectProfile = (state: RootState) => ({
+  user: state.global.user!, // Guaranteed to be available
+  colour: state.global.colour,
+});

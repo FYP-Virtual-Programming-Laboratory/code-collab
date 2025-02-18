@@ -8,7 +8,7 @@ import { initLoader } from "./lib/monaco-loader";
 initLoader().then(() => {
   createRoot(document.getElementById("root")!).render(
     <StrictMode>
-      <CrdtEditor />
+      <CrdtEditor sessionId="123456" userId={1} />
     </StrictMode>
   );
 });

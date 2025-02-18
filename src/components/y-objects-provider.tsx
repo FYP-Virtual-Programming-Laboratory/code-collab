@@ -28,7 +28,7 @@ export default function YObjectsProvider({
   };
 }) {
   const profile = useAppSelector(selectProfile);
-  const username = profile.username;
+  const username = profile.user.username;
   const colour = profile.colour;
   const doc = useRef<Doc>();
   const awareness = useRef<Awareness>();

@@ -22,7 +22,7 @@ type EditorProps = {
 
 export default function Editor({ file }: Readonly<EditorProps>) {
   const profile = useAppSelector(selectProfile);
-  const username = profile.username;
+  const username = profile.user.username;
 
   const [monacoEditor, setMonacoEditor] =
     useState<editor.IStandaloneCodeEditor>();
