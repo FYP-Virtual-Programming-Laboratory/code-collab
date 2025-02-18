@@ -28,22 +28,25 @@ export class FileNode extends AbstractNode {
   ) {
     super(id, name, level, parent);
 
-    const { awareness, doc } = yObjects;
+    const { awareness, doc, userData } = yObjects;
     const uri = Uri.parse("file://" + this.getPath());
 
     const model =
       editor.getModel(uri) ?? editor.createModel("", undefined, uri);
 
-    doc.getText(this.getPath()).observe((event) => {
-      console.log("FileNode observe", event.changes.delta);
+    const yText = doc.getText(this.getPath());
+
+    yText.observe((event) => {
+      if (event.transaction.local) {
+        const contribMap = doc.getMap<number>("contributions");
+        contribMap.set(
+          userData.getUserByClientId(doc.clientID),
+          (contribMap.get(userData.getUserByClientId(doc.clientID)) || 0) + 1
+        );
+      }
     });
 
-    this.binding = new MonacoBinding(
-      doc.getText(this.getPath()),
-      model,
-      undefined,
-      awareness
-    );
+    this.binding = new MonacoBinding(yText, model, undefined, awareness);
   }
 
   /**

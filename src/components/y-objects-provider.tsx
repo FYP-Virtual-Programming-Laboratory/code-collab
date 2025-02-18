@@ -70,14 +70,6 @@ export default function YObjectsProvider({
     });
     _userData.setUserMapping(_doc, _doc.clientID, username);
 
-    const handleUpdate = () => {
-      const clientID = _doc.clientID;
-      const user = _userData.getUserByClientId(clientID);
-      console.log(`Change made by user: ${user.name}`);
-    };
-
-    _doc.on("update", handleUpdate);
-
     doc.current = _doc;
     awareness.current = _awareness;
     userData.current = _userData;
