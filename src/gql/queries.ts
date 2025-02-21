@@ -52,3 +52,39 @@ export const LIST_FILES = gql(`
     }
   }
 `);
+
+export const GET_FILE_CONTENT = gql(`
+query GetFileContent($fileId: Int!) {
+  getFile(fileId: $fileId) {
+    content
+  }
+}`);
+
+export const GET_FILE_META = gql(`
+query GetFileMeta($fileId: Int!) {
+  getFile(fileId: $fileId) {
+    contributions {
+      contributionStats {
+        contributorId
+        contributions
+      }
+    }
+    createdAt
+    id
+    lastModified
+    path
+    size
+  }
+}`);
+
+export const GET_FILE_HISTORY = gql(`
+query GetFileHistory($fileId: Int!) {
+  getFileVersions(fileId: $fileId) {
+    id
+    createdAt
+    committedBy {
+      id
+      username
+    }
+  }
+}`);

@@ -23,6 +23,9 @@ type Documents = {
     "\nquery GetProjectBySessionId($sessionId: String!) {\n  getProjectBySessionId(sessionId: $sessionId) {\n    id\n    sessionId\n    name\n    members {\n      id\n    }\n    createdAt\n  }\n}": typeof types.GetProjectBySessionIdDocument,
     "\nquery ListProjectFiles($projectId: Int!) {\n  listFiles(projectId: $projectId) {\n    id\n    path\n    size\n    createdAt\n    lastModified\n  }\n}": typeof types.ListProjectFilesDocument,
     "\n  query ListFiles($projectId: Int!) {\n    listFiles(projectId: $projectId) {\n      id\n      path\n      content\n    }\n  }\n": typeof types.ListFilesDocument,
+    "\nquery GetFileContent($fileId: Int!) {\n  getFile(fileId: $fileId) {\n    content\n  }\n}": typeof types.GetFileContentDocument,
+    "\nquery GetFileMeta($fileId: Int!) {\n  getFile(fileId: $fileId) {\n    contributions {\n      contributionStats {\n        contributorId\n        contributions\n      }\n    }\n    createdAt\n    id\n    lastModified\n    path\n    size\n  }\n}": typeof types.GetFileMetaDocument,
+    "\nquery GetFileHistory($fileId: Int!) {\n  getFileVersions(fileId: $fileId) {\n    id\n    createdAt\n    committedBy {\n      id\n      username\n    }\n  }\n}": typeof types.GetFileHistoryDocument,
 };
 const documents: Documents = {
     "\n  mutation UpdateFile($fileId: Int!, $newContent: String!, $projectId: Int!, $yDocUpdates: String!) {\n    updateFile(fileId: $fileId, newContent: $newContent, projectId: $projectId, yDocUpdates: $yDocUpdates) {\n      id\n      size\n      content\n      lastModified\n    }\n  }\n": types.UpdateFileDocument,
@@ -34,6 +37,9 @@ const documents: Documents = {
     "\nquery GetProjectBySessionId($sessionId: String!) {\n  getProjectBySessionId(sessionId: $sessionId) {\n    id\n    sessionId\n    name\n    members {\n      id\n    }\n    createdAt\n  }\n}": types.GetProjectBySessionIdDocument,
     "\nquery ListProjectFiles($projectId: Int!) {\n  listFiles(projectId: $projectId) {\n    id\n    path\n    size\n    createdAt\n    lastModified\n  }\n}": types.ListProjectFilesDocument,
     "\n  query ListFiles($projectId: Int!) {\n    listFiles(projectId: $projectId) {\n      id\n      path\n      content\n    }\n  }\n": types.ListFilesDocument,
+    "\nquery GetFileContent($fileId: Int!) {\n  getFile(fileId: $fileId) {\n    content\n  }\n}": types.GetFileContentDocument,
+    "\nquery GetFileMeta($fileId: Int!) {\n  getFile(fileId: $fileId) {\n    contributions {\n      contributionStats {\n        contributorId\n        contributions\n      }\n    }\n    createdAt\n    id\n    lastModified\n    path\n    size\n  }\n}": types.GetFileMetaDocument,
+    "\nquery GetFileHistory($fileId: Int!) {\n  getFileVersions(fileId: $fileId) {\n    id\n    createdAt\n    committedBy {\n      id\n      username\n    }\n  }\n}": types.GetFileHistoryDocument,
 };
 
 /**
@@ -86,6 +92,18 @@ export function gql(source: "\nquery ListProjectFiles($projectId: Int!) {\n  lis
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  query ListFiles($projectId: Int!) {\n    listFiles(projectId: $projectId) {\n      id\n      path\n      content\n    }\n  }\n"): (typeof documents)["\n  query ListFiles($projectId: Int!) {\n    listFiles(projectId: $projectId) {\n      id\n      path\n      content\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\nquery GetFileContent($fileId: Int!) {\n  getFile(fileId: $fileId) {\n    content\n  }\n}"): (typeof documents)["\nquery GetFileContent($fileId: Int!) {\n  getFile(fileId: $fileId) {\n    content\n  }\n}"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\nquery GetFileMeta($fileId: Int!) {\n  getFile(fileId: $fileId) {\n    contributions {\n      contributionStats {\n        contributorId\n        contributions\n      }\n    }\n    createdAt\n    id\n    lastModified\n    path\n    size\n  }\n}"): (typeof documents)["\nquery GetFileMeta($fileId: Int!) {\n  getFile(fileId: $fileId) {\n    contributions {\n      contributionStats {\n        contributorId\n        contributions\n      }\n    }\n    createdAt\n    id\n    lastModified\n    path\n    size\n  }\n}"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\nquery GetFileHistory($fileId: Int!) {\n  getFileVersions(fileId: $fileId) {\n    id\n    createdAt\n    committedBy {\n      id\n      username\n    }\n  }\n}"): (typeof documents)["\nquery GetFileHistory($fileId: Int!) {\n  getFileVersions(fileId: $fileId) {\n    id\n    createdAt\n    committedBy {\n      id\n      username\n    }\n  }\n}"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};
