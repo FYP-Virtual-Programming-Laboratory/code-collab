@@ -1,7 +1,13 @@
 import { useQuery } from "@apollo/client";
+import { useSelector } from "react-redux";
 import { useAppDispatch } from "./app/hooks";
 import YObjectsProvider from "./components/y-objects-provider";
-import { projectIdSet, userSet } from "./features/global.slice";
+import {
+  projectSet,
+  selectProject,
+  selectUser,
+  userSet,
+} from "./features/global.slice";
 import { GET_PROJECT_AND_USER } from "./gql/queries";
 import EditorView from "./views/editor";
 
@@ -13,13 +19,15 @@ export default function ProjectFetcher({
   userId: number;
 }) {
   const dispatch = useAppDispatch();
+  const project = useSelector(selectProject);
+  const user = useSelector(selectUser);
   const { data } = useQuery(GET_PROJECT_AND_USER, {
     variables: { sessionId, userId },
     fetchPolicy: "network-only",
     ssr: false,
     onCompleted: (data) => {
       if (data.project) {
-        dispatch(projectIdSet({ projectId: data.project.id }));
+        dispatch(projectSet(data.project));
       }
 
       if (data.user) {
@@ -28,13 +36,13 @@ export default function ProjectFetcher({
     },
   });
 
-  if (!data || !data.project || !data.user) return null;
+  if (!data || !project?.id || !user) return null;
 
-  const { id, yDocUpdates } = data.project;
+  const { id, yDocUpdates } = project;
 
   return (
     <YObjectsProvider project={{ id, updates: yDocUpdates }}>
-      <EditorView projectId={data.project.id} />
+      <EditorView projectId={project.id} />
     </YObjectsProvider>
   );
 }

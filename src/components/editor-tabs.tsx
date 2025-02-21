@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
-import { selectProjectId } from "@/features/global.slice";
+import { selectProject } from "@/features/global.slice";
 import {
   fileActivated,
   fileClosed,
@@ -24,7 +24,8 @@ export default function EditorTabs() {
   const activeFileIdx = useAppSelector(selectActiveFileIdx);
   const { cache } = useContext(FileTreeContext);
   const [updateFile] = useMutation(UPDATE_FILE);
-  const projectId = useSelector(selectProjectId);
+  const project = useSelector(selectProject);
+  const projectId = project?.id;
 
   const activeFile = useMemo(
     () => (activeFileIdx !== null ? cache[openedFiles[activeFileIdx]] : null),

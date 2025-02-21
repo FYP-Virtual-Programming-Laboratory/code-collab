@@ -1,5 +1,5 @@
 import { useAppSelector } from "@/app/hooks";
-import { selectProfile } from "@/features/global.slice";
+import { selectColour, selectUser } from "@/features/global.slice";
 import { setUpWebRTCProvider, setUpWebSocketProvider } from "@/lib/connections";
 import { base64ToBytes } from "@/lib/utils";
 import { Position, Selection } from "monaco-editor";
@@ -27,9 +27,9 @@ export default function YObjectsProvider({
     updates: string;
   };
 }) {
-  const profile = useAppSelector(selectProfile);
-  const username = profile.user.username;
-  const colour = profile.colour;
+  const user = useAppSelector(selectUser);
+  const username = user?.username;
+  const colour = useAppSelector(selectColour);
   const doc = useRef<Doc>();
   const awareness = useRef<Awareness>();
   const userData = useRef<PermanentUserData>();
@@ -44,6 +44,8 @@ export default function YObjectsProvider({
   };
 
   useEffect(() => {
+    if (!username) return;
+
     const _doc = new Doc();
     // @ts-expect-error - Expose the doc object to the window for debugging
     window.doc = doc.current;

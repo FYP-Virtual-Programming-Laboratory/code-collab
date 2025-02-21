@@ -1,7 +1,7 @@
 import { useAppDispatch } from "@/app/hooks";
 import { fileOpened } from "@/features/opened-files.slice";
 import useContextMenu from "@/hooks/use-context-menu";
-import { AbstractNode, NodeType } from "@/lib/abstract-node";
+import { AbstractNode, NodeType } from "@/lib/file-system/abstract-node";
 import { FileNode } from "@/lib/file-system/file-node";
 import {
   ChevronDown,
@@ -11,7 +11,7 @@ import {
   FolderOpen,
 } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
-import { sortNodes } from "../lib/file-tree";
+import { sortNodes } from "../lib/file-system/file-tree";
 import { FileTreeContext } from "./file-tree.context";
 import {
   ContextMenu,
