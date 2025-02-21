@@ -1,4 +1,3 @@
-import { gql } from "@/__generated__";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { selectProjectId } from "@/features/global.slice";
 import {
@@ -7,6 +6,7 @@ import {
   selectActiveFileIdx,
   selectOpenedFiles,
 } from "@/features/opened-files.slice";
+import { UPDATE_FILE } from "@/gql/mutations";
 import { FileNode } from "@/lib/file-system/file-node";
 import { bytesToBase64, cn } from "@/lib/utils";
 import { useMutation } from "@apollo/client";
@@ -17,17 +17,6 @@ import { encodeStateAsUpdateV2 } from "yjs";
 import Editor from "./editor";
 import { FileTreeContext } from "./file-tree.context";
 import { buttonVariants } from "./ui/button";
-
-const UPDATE_FILE = gql(`
-  mutation UpdateFile($fileId: Int!, $newContent: String!, $projectId: Int!, $yDocUpdates: String!) {
-    updateFile(fileId: $fileId, newContent: $newContent, projectId: $projectId, yDocUpdates: $yDocUpdates) {
-      id
-      size
-      content
-      lastModified
-    }
-  }
-`);
 
 export default function EditorTabs() {
   const dispatch = useAppDispatch();

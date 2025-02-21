@@ -1,28 +1,9 @@
 import { useQuery } from "@apollo/client";
-import { gql } from "./__generated__";
 import { useAppDispatch } from "./app/hooks";
 import YObjectsProvider from "./components/y-objects-provider";
 import { projectIdSet, userSet } from "./features/global.slice";
+import { GET_PROJECT_AND_USER } from "./gql/queries";
 import EditorView from "./views/editor";
-
-const GET_PROJECT_AND_USER = gql(`
-  query GetProjectAndUser($sessionId: String!, $userId: Int!) {
-    project: getProjectBySessionId(sessionId: $sessionId) {
-      id
-      sessionId
-      name
-      createdAt
-      yDocUpdates
-    }
-    user: getUser(id: $userId) {
-      id
-      email
-      username
-      firstName
-      lastName
-    }
-  }
-`);
 
 export default function ProjectFetcher({
   sessionId,

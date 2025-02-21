@@ -1,4 +1,3 @@
-import { gql } from "@/__generated__/gql";
 import EditorTabs from "@/components/editor-tabs";
 import Explorer from "@/components/explorer";
 import { FileTreeContext } from "@/components/file-tree.context";
@@ -7,22 +6,13 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
+import { LIST_FILES } from "@/gql/queries";
 import { useYObjects } from "@/hooks/use-y-objects";
 import { DirNode } from "@/lib/file-system/dir-node";
 import { FileNode } from "@/lib/file-system/file-node";
 import { buildTree, initFileCache } from "@/lib/file-system/file-tree";
 import { useQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
-
-const LIST_FILES = gql(`
-  query ListFiles($projectId: Int!) {
-    listFiles(projectId: $projectId) {
-      id
-      path
-      content
-    }
-  }
-`);
 
 export default function EditorView({ projectId }: { projectId: number }) {
   const { data } = useQuery(LIST_FILES, {
