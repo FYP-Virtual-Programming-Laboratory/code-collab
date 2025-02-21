@@ -1,5 +1,5 @@
-import { DirNode } from "@/lib/dir-node";
-import { FileNode } from "@/lib/file-node";
+import { DirNode } from "@/lib/file-system/dir-node";
+import { FileNode } from "@/lib/file-system/file-node";
 import { createContext } from "react";
 
 export const FileTreeContext = createContext<{

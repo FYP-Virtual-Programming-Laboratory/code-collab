@@ -11,7 +11,7 @@ import {
   injectStyles,
   renderDecorations,
 } from "@/lib/editor";
-import { FileNode } from "@/lib/file-node";
+import { FileNode } from "@/lib/file-system/file-node";
 import { cn } from "@/lib/utils";
 import "./editor.css";
 import { AwarenessState } from "./y-objects-provider";

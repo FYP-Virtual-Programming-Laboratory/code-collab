@@ -2,7 +2,7 @@ import { useAppDispatch } from "@/app/hooks";
 import { fileOpened } from "@/features/opened-files.slice";
 import useContextMenu from "@/hooks/use-context-menu";
 import { AbstractNode, NodeType } from "@/lib/abstract-node";
-import { FileNode } from "@/lib/file-node";
+import { FileNode } from "@/lib/file-system/file-node";
 import {
   ChevronDown,
   ChevronRight,

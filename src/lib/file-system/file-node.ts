@@ -1,9 +1,9 @@
 import { YObjects } from "@/contexts/y-objects-context";
 import { Uri, editor } from "monaco-editor";
 import { MonacoBinding } from "y-monaco";
+import { ignore } from "../utils";
 import { AbstractNode, NodeType } from "./abstract-node";
 import { DirNode } from "./dir-node";
-import { ignore } from "./utils";
 
 /**
  * Represents a file node in the explorer.

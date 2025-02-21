@@ -8,9 +8,9 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import { useYObjects } from "@/hooks/use-y-objects";
-import { DirNode } from "@/lib/dir-node";
-import { FileNode } from "@/lib/file-node";
-import { buildTree, initFileCache } from "@/lib/file-tree";
+import { DirNode } from "@/lib/file-system/dir-node";
+import { FileNode } from "@/lib/file-system/file-node";
+import { buildTree, initFileCache } from "@/lib/file-system/file-tree";
 import { useQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
 

@@ -2,9 +2,9 @@ import {
   ContextMenuItem,
   ContextMenuSeparator,
 } from "@/components/ui/context-menu";
-import { AbstractNode } from "@/lib/abstract-node";
-import { DirNode } from "@/lib/dir-node";
-import { FileNode } from "@/lib/file-node";
+import { AbstractNode } from "@/lib/file-system/abstract-node";
+import { DirNode } from "@/lib/file-system/dir-node";
+import { FileNode } from "@/lib/file-system/file-node";
 import { JSX, useMemo } from "react";
 
 export default function useContextMenu(node: AbstractNode) {

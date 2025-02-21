@@ -7,7 +7,7 @@ import {
   selectActiveFileIdx,
   selectOpenedFiles,
 } from "@/features/opened-files.slice";
-import { FileNode } from "@/lib/file-node";
+import { FileNode } from "@/lib/file-system/file-node";
 import { bytesToBase64, cn } from "@/lib/utils";
 import { useMutation } from "@apollo/client";
 import { X } from "lucide-react";
