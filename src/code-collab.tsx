@@ -13,13 +13,9 @@ type CodeCollabProps = {
   serverUrl?: string;
 };
 
-export default function CodeCollab({
-  sessionId,
-  userId,
-  serverUrl = "http://localhost:3000/graphql",
-}: CodeCollabProps) {
+export default function CodeCollab({ sessionId, userId }: CodeCollabProps) {
   return (
-    <ApolloProvider client={getApolloClient({ url: serverUrl })}>
+    <ApolloProvider client={getApolloClient()}>
       <Provider store={store}>
         <ProjectFetcher sessionId={sessionId} userId={userId} />
       </Provider>
