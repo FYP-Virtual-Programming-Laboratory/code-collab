@@ -22,7 +22,7 @@ pnpm add code-collab
 
 ### Configuration
 
-You can configure the URLs for GraphQL, WebSocket, and signaling server using the `configure` function.
+You can configure the URLs for GraphQL, WebSocket, and signaling server using the `configure` function. This is best placed in the entrypoint of your code. It has to be called before any other part of this library is used.
 
 ```typescript
 import { configure } from "code-collab";
@@ -124,7 +124,6 @@ The `CodeCollab` component sets up the collaborative editor.
 
 - `sessionId` (string): The session ID for the project.
 - `userId` (number): The user ID of the current user.
-- `serverUrl` (string, optional): The URL of the GraphQL server. Default is `"http://localhost:3000/graphql"`.
 
 #### Example
 
@@ -139,7 +138,3 @@ function App() {
 ## License
 
 This project is licensed under the MIT License.
-
-```
-
-```
