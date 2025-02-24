@@ -9,8 +9,6 @@ import "./index.css";
 type CodeCollabProps = {
   sessionId: string;
   userId: number;
-  /** @default "http://localhost:3000/graphql" */
-  serverUrl?: string;
 };
 
 export default function CodeCollab({ sessionId, userId }: CodeCollabProps) {
