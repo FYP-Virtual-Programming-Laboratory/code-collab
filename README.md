@@ -1,4 +1,4 @@
-# CRDT Editor
+# Code Collab
 
 ## Overview
 
@@ -16,6 +16,16 @@ yarn add code-collab
 # npm
 npm i code-collab
 ```
+
+## Concepts
+
+### Virtual Programming Laboratory Session
+
+A virtual programming laboratory session is an online environment where students or developers can write, run, and test code. It often includes tools like code editors, compilers, debuggers, and version control systems. These sessions provide a hands-on learning experience, allowing participants to apply theoretical knowledge in a practical setting. They can work on projects, complete exercises, and collaborate with others in real-time.
+
+### Project
+
+A project is a collection of files and resources that work together to achieve a specific goal or solve a particular problem. It typically includes source code, configuration files, documentation, and dependencies. In a virtual programming laboratory session, a project serves as the main unit of work where students or developers can practice coding, experiment with new technologies, and build applications. A project is uniquely associated with a session.
 
 ## Usage
 
