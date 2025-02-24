@@ -6,16 +6,15 @@ This project provides a collaborative real-time editor using CRDTs (Conflict-fre
 
 ## Installation
 
-To install the dependencies, run:
-
-```bash
-pnpm install
-```
-
 To install the library, run:
 
 ```bash
+# pnpm
 pnpm add code-collab
+# yarn
+yarn add code-collab
+# npm
+npm i code-collab
 ```
 
 ## Usage
