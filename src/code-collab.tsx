@@ -4,18 +4,18 @@ import { getApolloClient } from "./apollo-client";
 import { store } from "./app/store";
 import ProjectFetcher from "./project-fetcher";
 
+import { useMemo } from "react";
 import "./index.css";
+import { getConfig } from "./lib/integration/configure";
 
-type CodeCollabProps = {
-  sessionId: string;
-  userId: number;
-};
+export default function CodeCollab() {
+  const sessionId = useMemo(() => getConfig("sessionId"), []);
+  const user = useMemo(() => getConfig("user"), []);
 
-export default function CodeCollab({ sessionId, userId }: CodeCollabProps) {
   return (
     <ApolloProvider client={getApolloClient()}>
       <Provider store={store}>
-        <ProjectFetcher sessionId={sessionId} userId={userId} />
+        <ProjectFetcher sessionId={sessionId} user={user} />
       </Provider>
     </ApolloProvider>
   );

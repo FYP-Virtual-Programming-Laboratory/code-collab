@@ -3,12 +3,12 @@ import {
   InMemoryCache,
   NormalizedCacheObject,
 } from "@apollo/client";
-import { KVStore } from "./lib/integration/configure";
+import { getConfig } from "./lib/integration/configure";
 
 const clientMaps: Map<string, ApolloClient<NormalizedCacheObject>> = new Map();
 
 export function getApolloClient() {
-  const uri = KVStore.gqlUrl;
+  const uri = getConfig("gqlUrl");
 
   let client = clientMaps.get(uri);
 
@@ -16,6 +16,9 @@ export function getApolloClient() {
     client = new ApolloClient({
       uri,
       cache: new InMemoryCache(),
+      headers: {
+        user: getConfig("user"),
+      },
     });
 
     clientMaps.set(uri, client);

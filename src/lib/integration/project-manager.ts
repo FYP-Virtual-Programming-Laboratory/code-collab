@@ -8,8 +8,6 @@ import {
 import { GET_PROJECT_QUERY, LIST_PROJECT_FILES_QUERY } from "@/gql/queries";
 
 export class ProjectManager {
-  private static apolloClient = getApolloClient();
-
   static async createProject({
     sessionId,
     createdBy,
@@ -21,7 +19,7 @@ export class ProjectManager {
     projectName: string;
     participantIds: number[];
   }) {
-    const res = await this.apolloClient.mutate({
+    const res = await getApolloClient().mutate({
       mutation: CREATE_PROJECT_MUTATION,
       variables: {
         sessionId,
@@ -41,7 +39,7 @@ export class ProjectManager {
     sessionId: string;
     projectName: string;
   }) {
-    const res = await this.apolloClient.mutate({
+    const res = await getApolloClient().mutate({
       mutation: UPDATE_PROJECT_MUTATION,
       variables: {
         sessionId,
@@ -54,16 +52,16 @@ export class ProjectManager {
 
   static async addUserToProject({
     projectId,
-    userId,
+    user,
   }: {
     projectId: number;
-    userId: number;
+    user: string;
   }) {
-    const res = await this.apolloClient.mutate({
+    const res = await getApolloClient().mutate({
       mutation: ADD_PROJECT_MEMBER_MUTATION,
       variables: {
         projectId,
-        userId,
+        user,
       },
     });
 
@@ -72,16 +70,16 @@ export class ProjectManager {
 
   static async removeUserFromProject({
     projectId,
-    userId,
+    user,
   }: {
     projectId: number;
-    userId: number;
+    user: string;
   }) {
-    const res = await this.apolloClient.mutate({
+    const res = await getApolloClient().mutate({
       mutation: REMOVE_PROJECT_MEMBER_MUTATION,
       variables: {
         projectId,
-        userId,
+        user,
       },
     });
 
@@ -89,7 +87,7 @@ export class ProjectManager {
   }
 
   static async getProjectInfo({ sessionId }: { sessionId: string }) {
-    const res = await this.apolloClient.query({
+    const res = await getApolloClient().query({
       query: GET_PROJECT_QUERY,
       variables: {
         sessionId,
@@ -104,7 +102,7 @@ export class ProjectManager {
   }
 
   static async listFiles({ projectId }: { projectId: number }) {
-    const res = await this.apolloClient.query({
+    const res = await getApolloClient().query({
       query: LIST_PROJECT_FILES_QUERY,
       variables: {
         projectId,

@@ -6,10 +6,8 @@ import {
 } from "@/gql/queries";
 
 export class FileManager {
-  private static apolloClient = getApolloClient();
-
   static async getFileMeta({ fileId }: { fileId: number }) {
-    const response = await this.apolloClient.query({
+    const response = await getApolloClient().query({
       query: GET_FILE_META,
       variables: {
         fileId,
@@ -20,7 +18,7 @@ export class FileManager {
   }
 
   static async getFileContent({ fileId }: { fileId: number }) {
-    const response = await this.apolloClient.query({
+    const response = await getApolloClient().query({
       query: GET_FILE_CONTENT,
       variables: {
         fileId,
@@ -31,7 +29,7 @@ export class FileManager {
   }
 
   static async getFileHistory({ fileId }: { fileId: number }) {
-    const response = await this.apolloClient.query({
+    const response = await getApolloClient().query({
       query: GET_FILE_HISTORY,
       variables: {
         fileId,
