@@ -13,7 +13,7 @@ import { useMutation } from "@apollo/client";
 import { X } from "lucide-react";
 import { useCallback, useContext, useMemo } from "react";
 import { useSelector } from "react-redux";
-import { encodeStateAsUpdateV2 } from "yjs";
+import { encodeSnapshotV2, encodeStateAsUpdateV2, snapshot } from "yjs";
 import Editor from "./editor";
 import { FileTreeContext } from "./file-tree.context";
 import { buttonVariants } from "./ui/button";
@@ -43,6 +43,7 @@ export default function EditorTabs() {
             newContent: node.getContent(),
             projectId: projectId,
             yDocUpdates: bytesToBase64(updates),
+            snapshot: bytesToBase64(encodeSnapshotV2(snapshot(ydoc))),
           },
         });
       }

@@ -1,5 +1,5 @@
 import { useAppSelector } from "@/app/hooks";
-import { selectColour, selectUser } from "@/features/global.slice";
+import { selectColour, selectUsername } from "@/features/global.slice";
 import { setUpWebRTCProvider, setUpWebSocketProvider } from "@/lib/connections";
 import { base64ToBytes } from "@/lib/utils";
 import { Position, Selection } from "monaco-editor";
@@ -27,8 +27,7 @@ export default function YObjectsProvider({
     updates: string;
   };
 }) {
-  const user = useAppSelector(selectUser);
-  const username = user?.username;
+  const username = useAppSelector(selectUsername);
   const colour = useAppSelector(selectColour);
   const doc = useRef<Doc>();
   const awareness = useRef<Awareness>();

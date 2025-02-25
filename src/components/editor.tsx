@@ -3,7 +3,7 @@ import { editor } from "monaco-editor";
 import { useCallback, useEffect, useState } from "react";
 
 import { useAppSelector } from "@/app/hooks";
-import { selectUser } from "@/features/global.slice";
+import { selectUsername } from "@/features/global.slice";
 import { useYObjects } from "@/hooks/use-y-objects";
 import {
   awarenessToDecorations,
@@ -21,8 +21,7 @@ type EditorProps = {
 };
 
 export default function Editor({ file }: Readonly<EditorProps>) {
-  const user = useAppSelector(selectUser);
-  const username = user.username;
+  const username = useAppSelector(selectUsername);
 
   const [monacoEditor, setMonacoEditor] =
     useState<editor.IStandaloneCodeEditor>();

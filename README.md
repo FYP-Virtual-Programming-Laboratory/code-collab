@@ -36,10 +36,12 @@ You can configure the URLs for GraphQL, WebSocket, and signaling server using th
 ```typescript
 import { configure } from "code-collab";
 
-configure({
+await configure({
   gqlUrl: "http://your-graphql-url",
   wsUrl: "ws://your-websocket-url",
   signalUrl: "ws://your-signal-url",
+  sessionId: "123456",
+  user: "joshuaola",
 });
 ```
 
@@ -98,7 +100,7 @@ const updated = await ProjectManager.updateProject({
 ```typescript
 const added = await ProjectManager.addUserToProject({
   projectId: 1,
-  userId: 2,
+  user: "farayolaj",
 });
 ```
 
@@ -107,7 +109,7 @@ const added = await ProjectManager.addUserToProject({
 ```typescript
 const removed = await ProjectManager.removeUserFromProject({
   projectId: 1,
-  userId: 2,
+  user: "farayolaj",
 });
 ```
 
@@ -129,18 +131,13 @@ const files = await ProjectManager.listFiles({ projectId: 1 });
 
 The `CodeCollab` component sets up the collaborative editor.
 
-#### Props
-
-- `sessionId` (string): The session ID for the project.
-- `userId` (number): The user ID of the current user.
-
 #### Example
 
 ```tsx
 import CodeCollab from "code-collab";
 
 function App() {
-  return <CodeCollab sessionId="session-id" userId={1} />;
+  return <CodeCollab />;
 }
 ```
 
