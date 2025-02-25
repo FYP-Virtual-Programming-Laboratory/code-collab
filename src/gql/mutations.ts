@@ -1,8 +1,8 @@
 import { gql } from "@/__generated__";
 
 export const UPDATE_FILE = gql(`
-  mutation UpdateFile($fileId: Int!, $newContent: String!, $projectId: Int!, $yDocUpdates: String!) {
-    updateFile(fileId: $fileId, newContent: $newContent, projectId: $projectId, yDocUpdates: $yDocUpdates) {
+  mutation UpdateFile($fileId: Int!, $newContent: String!, $projectId: Int!, $yDocUpdates: String!, $snapshot: String!) {
+    updateFile(fileId: $fileId, newContent: $newContent, projectId: $projectId, yDocUpdates: $yDocUpdates, snapshot: $snapshot) {
       id
       size
       content
@@ -12,8 +12,8 @@ export const UPDATE_FILE = gql(`
 `);
 
 export const CREATE_PROJECT_MUTATION = gql(`
-mutation CreateProject($sessionId: String!, $creatorId: Int!, $name: String!, $memberIds: [Int!]) {
-  createProject(sessionId: $sessionId, creatorId: $creatorId, name: $name, memberIds: $memberIds) {
+mutation CreateProject($sessionId: String!, $name: String!, $members: [String!]) {
+  createProject(sessionId: $sessionId, name: $name, members: $members) {
     id
     name
     sessionId
@@ -27,11 +27,11 @@ mutation UpdateProject($name: String!, $updateProjectId: Int, $sessionId: String
 }`);
 
 export const ADD_PROJECT_MEMBER_MUTATION = gql(`
-mutation AddProjectMember($projectId: Int!, $userId: Int!) {
-  addProjectMember(projectId: $projectId, userId: $userId)
+mutation AddProjectMember($projectId: Int!, $user: String!) {
+  addProjectMember(projectId: $projectId, user: $user)
 }`);
 
 export const REMOVE_PROJECT_MEMBER_MUTATION = gql(`
-mutation RemoveProjectMember($projectId: Int!, $userId: Int!) {
-  removeProjectMember(projectId: $projectId, userId: $userId)
+mutation RemoveProjectMember($projectId: Int!, $user: String!) {
+  removeProjectMember(projectId: $projectId, user: $user)
 }`);

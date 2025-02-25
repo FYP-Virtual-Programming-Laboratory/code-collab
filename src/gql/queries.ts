@@ -1,20 +1,13 @@
 import { gql } from "@/__generated__";
 
-export const GET_PROJECT_AND_USER = gql(`
-  query GetProjectAndUser($sessionId: String!, $userId: Int!) {
+export const GET_PROJECT_WITH_UPDATES = gql(`
+  query GetProjectWithUpdates($sessionId: String!) {
     project: getProjectBySessionId(sessionId: $sessionId) {
       id
       sessionId
       name
       createdAt
       yDocUpdates
-    }
-    user: getUser(id: $userId) {
-      id
-      email
-      username
-      firstName
-      lastName
     }
   }
 `);
@@ -25,9 +18,7 @@ query GetProjectBySessionId($sessionId: String!) {
     id
     sessionId
     name
-    members {
-      id
-    }
+    members
     createdAt
   }
 }`);
@@ -63,12 +54,6 @@ query GetFileContent($fileId: Int!) {
 export const GET_FILE_META = gql(`
 query GetFileMeta($fileId: Int!) {
   getFile(fileId: $fileId) {
-    contributions {
-      contributionStats {
-        contributorId
-        contributions
-      }
-    }
     createdAt
     id
     lastModified
@@ -82,9 +67,6 @@ query GetFileHistory($fileId: Int!) {
   getFileVersions(fileId: $fileId) {
     id
     createdAt
-    committedBy {
-      id
-      username
-    }
+    committedBy
   }
 }`);
