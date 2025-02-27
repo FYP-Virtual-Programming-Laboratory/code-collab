@@ -35,3 +35,14 @@ export const REMOVE_PROJECT_MEMBER_MUTATION = gql(`
 mutation RemoveProjectMember($projectId: Int!, $user: String!) {
   removeProjectMember(projectId: $projectId, user: $user)
 }`);
+
+export const NEW_FILE = gql(`
+mutation NewFile($projectId: Int!, $filePath: String!) {
+  newFile(projectId: $projectId, filePath: $filePath) {
+    content
+    path
+    id
+    size
+    createdAt
+  }
+}`);
