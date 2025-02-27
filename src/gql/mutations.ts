@@ -46,3 +46,8 @@ mutation NewFile($projectId: Int!, $filePath: String!) {
     createdAt
   }
 }`);
+
+export const UPDATE_PROJECT_DOC = gql(`
+mutation UpdateProjectDoc($projectId: Int!, $doc: String!) {
+  updateProjectDoc(projectId: $projectId, doc: $doc)
+}`);

@@ -2,6 +2,7 @@ import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { selectProject } from "@/features/global.slice";
 import { fileOpened } from "@/features/opened-files.slice";
 import { NEW_FILE } from "@/gql/mutations";
+import { useUpdateProjectDoc } from "@/hooks/use-update-project-doc";
 import { useMutation } from "@apollo/client";
 import { PlusIcon } from "lucide-react";
 import { useState } from "react";
@@ -23,6 +24,7 @@ export function NewFileDialog() {
   const [open, setOpen] = useState(false);
   const [fileName, setFileName] = useState("");
   const dispatch = useAppDispatch();
+  const updateProjectDoc = useUpdateProjectDoc();
 
   const [newFile] = useMutation(NEW_FILE, {
     awaitRefetchQueries: true,
@@ -30,6 +32,7 @@ export function NewFileDialog() {
     onCompleted: (data) => {
       setFileName("");
       dispatch(fileOpened({ fileId: data.newFile.id }));
+      updateProjectDoc();
     },
     onError: (error) => {
       setFileName("");

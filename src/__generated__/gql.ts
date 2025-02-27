@@ -20,6 +20,7 @@ type Documents = {
     "\nmutation AddProjectMember($projectId: Int!, $user: String!) {\n  addProjectMember(projectId: $projectId, user: $user)\n}": typeof types.AddProjectMemberDocument,
     "\nmutation RemoveProjectMember($projectId: Int!, $user: String!) {\n  removeProjectMember(projectId: $projectId, user: $user)\n}": typeof types.RemoveProjectMemberDocument,
     "\nmutation NewFile($projectId: Int!, $filePath: String!) {\n  newFile(projectId: $projectId, filePath: $filePath) {\n    content\n    path\n    id\n    size\n    createdAt\n  }\n}": typeof types.NewFileDocument,
+    "\nmutation UpdateProjectDoc($projectId: Int!, $doc: String!) {\n  updateProjectDoc(projectId: $projectId, doc: $doc)\n}": typeof types.UpdateProjectDocDocument,
     "\n  query GetProjectWithUpdates($sessionId: String!) {\n    project: getProjectBySessionId(sessionId: $sessionId) {\n      id\n      sessionId\n      name\n      createdAt\n      yDocUpdates\n    }\n  }\n": typeof types.GetProjectWithUpdatesDocument,
     "\nquery GetProjectBySessionId($sessionId: String!) {\n  getProjectBySessionId(sessionId: $sessionId) {\n    id\n    sessionId\n    name\n    members\n    createdAt\n  }\n}": typeof types.GetProjectBySessionIdDocument,
     "\nquery ListProjectFiles($projectId: Int!) {\n  listFiles(projectId: $projectId) {\n    id\n    path\n    size\n    createdAt\n    lastModified\n  }\n}": typeof types.ListProjectFilesDocument,
@@ -35,6 +36,7 @@ const documents: Documents = {
     "\nmutation AddProjectMember($projectId: Int!, $user: String!) {\n  addProjectMember(projectId: $projectId, user: $user)\n}": types.AddProjectMemberDocument,
     "\nmutation RemoveProjectMember($projectId: Int!, $user: String!) {\n  removeProjectMember(projectId: $projectId, user: $user)\n}": types.RemoveProjectMemberDocument,
     "\nmutation NewFile($projectId: Int!, $filePath: String!) {\n  newFile(projectId: $projectId, filePath: $filePath) {\n    content\n    path\n    id\n    size\n    createdAt\n  }\n}": types.NewFileDocument,
+    "\nmutation UpdateProjectDoc($projectId: Int!, $doc: String!) {\n  updateProjectDoc(projectId: $projectId, doc: $doc)\n}": types.UpdateProjectDocDocument,
     "\n  query GetProjectWithUpdates($sessionId: String!) {\n    project: getProjectBySessionId(sessionId: $sessionId) {\n      id\n      sessionId\n      name\n      createdAt\n      yDocUpdates\n    }\n  }\n": types.GetProjectWithUpdatesDocument,
     "\nquery GetProjectBySessionId($sessionId: String!) {\n  getProjectBySessionId(sessionId: $sessionId) {\n    id\n    sessionId\n    name\n    members\n    createdAt\n  }\n}": types.GetProjectBySessionIdDocument,
     "\nquery ListProjectFiles($projectId: Int!) {\n  listFiles(projectId: $projectId) {\n    id\n    path\n    size\n    createdAt\n    lastModified\n  }\n}": types.ListProjectFilesDocument,
@@ -82,6 +84,10 @@ export function gql(source: "\nmutation RemoveProjectMember($projectId: Int!, $u
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\nmutation NewFile($projectId: Int!, $filePath: String!) {\n  newFile(projectId: $projectId, filePath: $filePath) {\n    content\n    path\n    id\n    size\n    createdAt\n  }\n}"): (typeof documents)["\nmutation NewFile($projectId: Int!, $filePath: String!) {\n  newFile(projectId: $projectId, filePath: $filePath) {\n    content\n    path\n    id\n    size\n    createdAt\n  }\n}"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\nmutation UpdateProjectDoc($projectId: Int!, $doc: String!) {\n  updateProjectDoc(projectId: $projectId, doc: $doc)\n}"): (typeof documents)["\nmutation UpdateProjectDoc($projectId: Int!, $doc: String!) {\n  updateProjectDoc(projectId: $projectId, doc: $doc)\n}"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
