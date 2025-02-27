@@ -1,5 +1,5 @@
-import { useAppDispatch } from "@/app/hooks";
-import { fileOpened } from "@/features/opened-files.slice";
+import { useAppDispatch, useAppSelector } from "@/app/hooks";
+import { fileOpened, selectActiveFileId } from "@/features/opened-files.slice";
 import useContextMenu from "@/hooks/use-context-menu";
 import { AbstractNode, NodeType } from "@/lib/file-system/abstract-node";
 import { FileNode } from "@/lib/file-system/file-node";
@@ -34,7 +34,7 @@ function DirTreeItem({
   onClick?: () => void;
 }>) {
   const contextMenu = useContextMenu(node);
-
+  const activeFileId = useAppSelector(selectActiveFileId);
   const padding =
     0.5 + (depth - 1) * 0.5 + (node.nodeType() === NodeType.FILE ? 1.2 : 0);
 
@@ -42,9 +42,10 @@ function DirTreeItem({
     <ContextMenu>
       <ContextMenuTrigger>
         <button
-          className="inline-flex gap-1 items-center hover:bg-gray-300 w-full py-0.5"
+          className="inline-flex gap-1 items-center hover:bg-gray-300 data-[active=true]:bg-gray-300 w-full py-0.5 text-sm"
           style={{ paddingLeft: `${padding}em` }}
           onClick={onClick}
+          data-active={activeFileId === node.getId()}
         >
           {node.nodeType() === NodeType.DIR && (
             <>

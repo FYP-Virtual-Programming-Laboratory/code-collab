@@ -56,7 +56,7 @@ export function NewFileDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen} modal>
       <DialogTrigger className="hover:bg-gray-300 p-1">
-        <PlusIcon />
+        <PlusIcon width={16} height={16} />
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

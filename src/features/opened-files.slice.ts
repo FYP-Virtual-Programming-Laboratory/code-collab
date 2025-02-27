@@ -78,3 +78,7 @@ export default openedFilesReducer;
 export const selectOpenedFiles = (state: RootState) => state.openedFiles.files;
 export const selectActiveFileIdx = (state: RootState) =>
   state.openedFiles.activeFileIdx;
+export const selectActiveFileId = (state: RootState) =>
+  state.openedFiles.activeFileIdx !== null
+    ? state.openedFiles.files[state.openedFiles.activeFileIdx]
+    : null;
