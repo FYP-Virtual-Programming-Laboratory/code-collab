@@ -56,6 +56,7 @@ export default function EditorTabs() {
       <div className="inline-flex items-center text-muted-foreground w-full justify-start border-b h-9">
         {openedFiles
           .map((id) => cache[id])
+          .filter((node) => !!node)
           .map((node, idx) => (
             <div key={node.getId()} className="relative flex items-center">
               <button

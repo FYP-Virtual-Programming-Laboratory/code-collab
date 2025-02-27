@@ -19,6 +19,7 @@ type Documents = {
     "\nmutation UpdateProject($name: String!, $updateProjectId: Int, $sessionId: String) {\n  updateProject(name: $name, id: $updateProjectId, sessionId: $sessionId)\n}": typeof types.UpdateProjectDocument,
     "\nmutation AddProjectMember($projectId: Int!, $user: String!) {\n  addProjectMember(projectId: $projectId, user: $user)\n}": typeof types.AddProjectMemberDocument,
     "\nmutation RemoveProjectMember($projectId: Int!, $user: String!) {\n  removeProjectMember(projectId: $projectId, user: $user)\n}": typeof types.RemoveProjectMemberDocument,
+    "\nmutation NewFile($projectId: Int!, $filePath: String!) {\n  newFile(projectId: $projectId, filePath: $filePath) {\n    content\n    path\n    id\n    size\n    createdAt\n  }\n}": typeof types.NewFileDocument,
     "\n  query GetProjectWithUpdates($sessionId: String!) {\n    project: getProjectBySessionId(sessionId: $sessionId) {\n      id\n      sessionId\n      name\n      createdAt\n      yDocUpdates\n    }\n  }\n": typeof types.GetProjectWithUpdatesDocument,
     "\nquery GetProjectBySessionId($sessionId: String!) {\n  getProjectBySessionId(sessionId: $sessionId) {\n    id\n    sessionId\n    name\n    members\n    createdAt\n  }\n}": typeof types.GetProjectBySessionIdDocument,
     "\nquery ListProjectFiles($projectId: Int!) {\n  listFiles(projectId: $projectId) {\n    id\n    path\n    size\n    createdAt\n    lastModified\n  }\n}": typeof types.ListProjectFilesDocument,
@@ -33,6 +34,7 @@ const documents: Documents = {
     "\nmutation UpdateProject($name: String!, $updateProjectId: Int, $sessionId: String) {\n  updateProject(name: $name, id: $updateProjectId, sessionId: $sessionId)\n}": types.UpdateProjectDocument,
     "\nmutation AddProjectMember($projectId: Int!, $user: String!) {\n  addProjectMember(projectId: $projectId, user: $user)\n}": types.AddProjectMemberDocument,
     "\nmutation RemoveProjectMember($projectId: Int!, $user: String!) {\n  removeProjectMember(projectId: $projectId, user: $user)\n}": types.RemoveProjectMemberDocument,
+    "\nmutation NewFile($projectId: Int!, $filePath: String!) {\n  newFile(projectId: $projectId, filePath: $filePath) {\n    content\n    path\n    id\n    size\n    createdAt\n  }\n}": types.NewFileDocument,
     "\n  query GetProjectWithUpdates($sessionId: String!) {\n    project: getProjectBySessionId(sessionId: $sessionId) {\n      id\n      sessionId\n      name\n      createdAt\n      yDocUpdates\n    }\n  }\n": types.GetProjectWithUpdatesDocument,
     "\nquery GetProjectBySessionId($sessionId: String!) {\n  getProjectBySessionId(sessionId: $sessionId) {\n    id\n    sessionId\n    name\n    members\n    createdAt\n  }\n}": types.GetProjectBySessionIdDocument,
     "\nquery ListProjectFiles($projectId: Int!) {\n  listFiles(projectId: $projectId) {\n    id\n    path\n    size\n    createdAt\n    lastModified\n  }\n}": types.ListProjectFilesDocument,
@@ -76,6 +78,10 @@ export function gql(source: "\nmutation AddProjectMember($projectId: Int!, $user
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\nmutation RemoveProjectMember($projectId: Int!, $user: String!) {\n  removeProjectMember(projectId: $projectId, user: $user)\n}"): (typeof documents)["\nmutation RemoveProjectMember($projectId: Int!, $user: String!) {\n  removeProjectMember(projectId: $projectId, user: $user)\n}"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\nmutation NewFile($projectId: Int!, $filePath: String!) {\n  newFile(projectId: $projectId, filePath: $filePath) {\n    content\n    path\n    id\n    size\n    createdAt\n  }\n}"): (typeof documents)["\nmutation NewFile($projectId: Int!, $filePath: String!) {\n  newFile(projectId: $projectId, filePath: $filePath) {\n    content\n    path\n    id\n    size\n    createdAt\n  }\n}"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

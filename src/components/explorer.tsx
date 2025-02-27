@@ -12,8 +12,8 @@ import {
 } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { sortNodes } from "../lib/file-system/file-tree";
+import { NewFileDialog } from "./explorer/new-file-dialog";
 import { FileTreeContext } from "./file-tree.context";
-import { NewFileDialog } from "./new-file-dialog";
 import {
   ContextMenu,
   ContextMenuContent,
