@@ -3,7 +3,7 @@ import { selectProject } from "@/features/global.slice";
 import { UPDATE_PROJECT_DOC } from "@/gql/mutations";
 import { bytesToBase64 } from "@/lib/utils";
 import { useMutation } from "@apollo/client";
-import { encodeStateAsUpdateV2 } from "yjs";
+import { Doc, encodeStateAsUpdateV2 } from "yjs";
 import { useYObjects } from "./use-y-objects";
 
 export function useUpdateProjectDoc() {
@@ -12,13 +12,17 @@ export function useUpdateProjectDoc() {
   const projectId = project?.id;
   const { doc } = useYObjects();
 
-  return () => {
+  return (opts?: { beforeUpdate?: (doc: Doc) => void }) => {
     if (!projectId || !doc) {
       console.error("Project ID or document not found.");
       return;
     }
 
     try {
+      if (opts?.beforeUpdate) {
+        opts.beforeUpdate(doc);
+      }
+
       const encodedDoc = bytesToBase64(encodeStateAsUpdateV2(doc));
       return updateProjectDoc({
         variables: {
