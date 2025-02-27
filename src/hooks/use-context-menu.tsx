@@ -1,13 +1,16 @@
+import { useAppDispatch } from "@/app/hooks";
 import {
   ContextMenuItem,
   ContextMenuSeparator,
 } from "@/components/ui/context-menu";
+import { fileDeletionIntiated } from "@/features/explorer.slice";
 import { AbstractNode } from "@/lib/file-system/abstract-node";
 import { DirNode } from "@/lib/file-system/dir-node";
 import { FileNode } from "@/lib/file-system/file-node";
 import { JSX, useMemo } from "react";
 
 export default function useContextMenu(node: AbstractNode) {
+  const dispatch = useAppDispatch();
   const contextMenu = useMemo(() => {
     const isFile = node instanceof FileNode;
     const isDir = node instanceof DirNode;
@@ -82,13 +85,13 @@ export default function useContextMenu(node: AbstractNode) {
       </ContextMenuItem>,
       <ContextMenuItem
         key={`delete-${id}`}
-        onClick={() => console.log("Delete")}
+        onClick={() => dispatch(fileDeletionIntiated(id))}
         inset
       >
         Delete
       </ContextMenuItem>,
     ].filter(Boolean) as JSX.Element[];
-  }, [node]);
+  }, [dispatch, node]);
 
   return contextMenu;
 }

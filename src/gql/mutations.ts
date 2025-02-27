@@ -51,3 +51,11 @@ export const UPDATE_PROJECT_DOC = gql(`
 mutation UpdateProjectDoc($projectId: Int!, $doc: String!) {
   updateProjectDoc(projectId: $projectId, doc: $doc)
 }`);
+
+export const DELETE_FILE = gql(`
+mutation DeleteFile($fileId: Int!) {
+  deleteFile(fileId: $fileId) {
+    id
+    path
+  }
+}`);

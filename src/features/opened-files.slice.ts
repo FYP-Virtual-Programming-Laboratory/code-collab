@@ -38,7 +38,9 @@ const openedFilesSlice = createSlice({
         return;
       }
 
-      state.files.splice(action.payload.index, 1);
+      const fileId = state.files[action.payload.index];
+      state.files = state.files.filter((id) => id !== fileId);
+      console.log(state.files);
 
       if (state.activeFileIdx === action.payload.index) {
         if (state.files.length === 0) {

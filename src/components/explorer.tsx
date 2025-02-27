@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { sortNodes } from "../lib/file-system/file-tree";
+import { DeleteFileDialog } from "./explorer/delete-file-dialog";
 import { NewFileDialog } from "./explorer/new-file-dialog";
 import { FileTreeContext } from "./file-tree.context";
 import {
@@ -144,6 +145,7 @@ export default function Explorer() {
       <div className="flex-grow">
         <DirTree node={tree} />
       </div>
+      <DeleteFileDialog />
     </div>
   );
 }
