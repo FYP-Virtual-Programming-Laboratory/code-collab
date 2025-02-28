@@ -1,5 +1,5 @@
 import { YObjects } from "@/contexts/y-objects-context";
-import { AbstractNode } from "./abstract-node";
+import { AbstractNode, NodeType } from "./abstract-node";
 import { DirNode } from "./dir-node";
 import { FileNode } from "./file-node";
 
@@ -98,4 +98,12 @@ export function sortNodes(nodes: AbstractNode[]) {
 function dfsTraversal(node: AbstractNode, cb: (node: AbstractNode) => void) {
   cb(node);
   node.getChildren().forEach((child) => dfsTraversal(child, cb));
+}
+
+export function getAllFiles(node: DirNode) {
+  const files = [];
+
+  dfsTraversal(node, (child) => {
+    if (child.nodeType() === NodeType.FILE) files.push(child);
+  });
 }
