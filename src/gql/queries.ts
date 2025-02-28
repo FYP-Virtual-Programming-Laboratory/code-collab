@@ -26,23 +26,37 @@ query GetProjectBySessionId($sessionId: String!) {
 export const LIST_PROJECT_FILES_QUERY = gql(`
 query ListProjectFiles($projectId: Int!) {
   listFiles(projectId: $projectId) {
-    id
-    path
-    size
-    createdAt
-    lastModified
+    ... on File {
+      id
+      path
+      size
+      createdAt
+      lastModified
+    }
   }
 }`);
 
 export const LIST_FILES = gql(`
-  query ListFiles($projectId: Int!) {
-    listFiles(projectId: $projectId) {
+query ListFiles($projectId: Int!) {
+  listFiles(projectId: $projectId) {
+    ... on File {
       id
       path
+      parentId
       content
+      size
+      createdAt
+      lastModified
+      __typename
+    }
+    ... on Directory {
+      id
+      parentId
+      path
+      __typename
     }
   }
-`);
+}`);
 
 export const GET_FILE_CONTENT = gql(`
 query GetFileContent($fileId: Int!) {
