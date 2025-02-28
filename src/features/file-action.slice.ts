@@ -1,16 +1,16 @@
 import type { RootState } from "@/app/store";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export type ExplorerState = {
-  deleteFileDialog: {
-    open: boolean;
+export type FileActionState = {
+  deleteFile: {
+    openDialog: boolean;
     fileId?: number;
   };
 };
 
-const initialState: ExplorerState = {
-  deleteFileDialog: {
-    open: false,
+const initialState: FileActionState = {
+  deleteFile: {
+    openDialog: false,
     fileId: undefined,
   },
 };
@@ -20,11 +20,11 @@ const globalSlice = createSlice({
   initialState,
   reducers: {
     fileDeletionIntiated: (state, action: PayloadAction<number>) => {
-      state.deleteFileDialog.fileId = action.payload;
-      state.deleteFileDialog.open = true;
+      state.deleteFile.fileId = action.payload;
+      state.deleteFile.openDialog = true;
     },
     fileDeletionFinshedOrCancelled: (state) => {
-      state.deleteFileDialog.open = false;
+      state.deleteFile.openDialog = false;
     },
   },
 });
@@ -32,7 +32,7 @@ const globalSlice = createSlice({
 export const { fileDeletionFinshedOrCancelled, fileDeletionIntiated } =
   globalSlice.actions;
 
-const explorerReducer = globalSlice.reducer;
-export default explorerReducer;
+const fileActionReducer = globalSlice.reducer;
+export default fileActionReducer;
 
-export const selectExplorer = (state: RootState) => state.explorer;
+export const selectFileAction = (state: RootState) => state.fileAction;

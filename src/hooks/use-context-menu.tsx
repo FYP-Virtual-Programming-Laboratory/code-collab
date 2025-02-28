@@ -3,7 +3,7 @@ import {
   ContextMenuItem,
   ContextMenuSeparator,
 } from "@/components/ui/context-menu";
-import { fileDeletionIntiated } from "@/features/explorer.slice";
+import { fileDeletionIntiated } from "@/features/file-action.slice";
 import { AbstractNode } from "@/lib/file-system/abstract-node";
 import { DirNode } from "@/lib/file-system/dir-node";
 import { FileNode } from "@/lib/file-system/file-node";
