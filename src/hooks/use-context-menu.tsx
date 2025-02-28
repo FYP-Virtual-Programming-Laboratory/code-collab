@@ -3,14 +3,21 @@ import {
   ContextMenuItem,
   ContextMenuSeparator,
 } from "@/components/ui/context-menu";
-import { fileDeletionIntiated } from "@/features/file-action.slice";
+import {
+  fileDeletionIntiated,
+  newFileDialogOpened,
+} from "@/features/file-action.slice";
 import { AbstractNode } from "@/lib/file-system/abstract-node";
 import { DirNode } from "@/lib/file-system/dir-node";
 import { FileNode } from "@/lib/file-system/file-node";
-import { JSX, useMemo } from "react";
+import { JSX, useCallback, useMemo } from "react";
 
 export default function useContextMenu(node: AbstractNode) {
   const dispatch = useAppDispatch();
+  const openNewFileDialog = useCallback(
+    () => dispatch(newFileDialogOpened(node.getPath().slice(1) + "/")),
+    [dispatch, node]
+  );
   const contextMenu = useMemo(() => {
     const isFile = node instanceof FileNode;
     const isDir = node instanceof DirNode;
@@ -30,7 +37,7 @@ export default function useContextMenu(node: AbstractNode) {
       isDir ? (
         <ContextMenuItem
           key={`new-file-${id}`}
-          onClick={() => console.log("New File")}
+          onClick={openNewFileDialog}
           inset
         >
           New File
@@ -91,7 +98,7 @@ export default function useContextMenu(node: AbstractNode) {
         Delete
       </ContextMenuItem>,
     ].filter(Boolean) as JSX.Element[];
-  }, [dispatch, node]);
+  }, [dispatch, node, openNewFileDialog]);
 
   return contextMenu;
 }

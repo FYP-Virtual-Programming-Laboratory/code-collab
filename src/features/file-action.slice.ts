@@ -6,12 +6,20 @@ export type FileActionState = {
     openDialog: boolean;
     fileId?: number;
   };
+  newFile: {
+    path: string;
+    openDialog: boolean;
+  };
 };
 
 const initialState: FileActionState = {
   deleteFile: {
     openDialog: false,
     fileId: undefined,
+  },
+  newFile: {
+    path: "",
+    openDialog: false,
   },
 };
 
@@ -26,14 +34,34 @@ const globalSlice = createSlice({
     fileDeletionFinshedOrCancelled: (state) => {
       state.deleteFile.openDialog = false;
     },
+    newFileDialogOpened: (state, action: PayloadAction<string | undefined>) => {
+      state.newFile.openDialog = true;
+      state.newFile.path = action.payload ?? "";
+    },
+    newFilePathChanged: (state, action: PayloadAction<string>) => {
+      state.newFile.path = action.payload;
+    },
+    newFilePathReset: (state) => {
+      state.newFile.path = "";
+    },
+    newFileDialogClosed: (state) => {
+      state.newFile.openDialog = false;
+    },
   },
 });
 
-export const { fileDeletionFinshedOrCancelled, fileDeletionIntiated } =
-  globalSlice.actions;
+export const {
+  fileDeletionFinshedOrCancelled,
+  fileDeletionIntiated,
+  newFileDialogOpened,
+  newFilePathChanged,
+  newFilePathReset,
+  newFileDialogClosed,
+} = globalSlice.actions;
 
 const fileActionReducer = globalSlice.reducer;
 export default fileActionReducer;
 
 export const selectDeleteFile = (state: RootState) =>
   state.fileAction.deleteFile;
+export const selectNewFile = (state: RootState) => state.fileAction.newFile;

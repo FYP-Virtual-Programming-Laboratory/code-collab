@@ -1,11 +1,16 @@
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
+import {
+  newFileDialogClosed,
+  newFilePathChanged,
+  newFilePathReset,
+  selectNewFile,
+} from "@/features/file-action.slice";
 import { selectProject } from "@/features/global.slice";
 import { fileOpened } from "@/features/opened-files.slice";
 import { NEW_FILE } from "@/gql/mutations";
 import { useUpdateProjectDoc } from "@/hooks/use-update-project-doc";
 import { useMutation } from "@apollo/client";
-import { PlusIcon } from "lucide-react";
-import { useState } from "react";
+import { useCallback } from "react";
 import { Button } from "../../ui/button";
 import {
   Dialog,
@@ -14,50 +19,62 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "../../ui/dialog";
 import { Input } from "../../ui/input";
 
 export function NewFileDialog() {
   const project = useAppSelector(selectProject);
   const projectId = project?.id;
-  const [open, setOpen] = useState(false);
-  const [fileName, setFileName] = useState("");
+  const newFileState = useAppSelector(selectNewFile);
   const dispatch = useAppDispatch();
   const updateProjectDoc = useUpdateProjectDoc();
+
+  const onPathChange = useCallback(
+    (path: string) => dispatch(newFilePathChanged(path)),
+    [dispatch]
+  );
+  const closeDialog = useCallback(
+    () => dispatch(newFileDialogClosed()),
+    [dispatch]
+  );
+  const resetFilePath = useCallback(
+    () => dispatch(newFilePathReset()),
+    [dispatch]
+  );
+  const openFile = useCallback(
+    (id: number) => dispatch(fileOpened({ fileId: id })),
+    [dispatch]
+  );
 
   const [newFile] = useMutation(NEW_FILE, {
     awaitRefetchQueries: true,
     refetchQueries: ["ListFiles"],
     onCompleted: (data) => {
-      setFileName("");
-      dispatch(fileOpened({ fileId: data.newFile.id }));
+      resetFilePath();
+      openFile(data.newFile.id);
       updateProjectDoc();
     },
     onError: (error) => {
-      setFileName("");
+      resetFilePath();
       console.error(error);
     },
   });
 
-  const handleSubmit = () => {
-    setOpen(false);
+  const handleSubmit = useCallback(() => {
+    closeDialog();
 
-    if (fileName.trim() === "") {
+    if (newFileState.path.trim() === "") {
       console.error("File name cannot be empty.");
       return;
     }
 
     if (!projectId) return;
 
-    newFile({ variables: { filePath: fileName, projectId } });
-  };
+    newFile({ variables: { filePath: newFileState.path, projectId } });
+  }, [closeDialog, newFile, newFileState.path, projectId]);
 
   return (
-    <Dialog open={open} onOpenChange={setOpen} modal>
-      <DialogTrigger className="hover:bg-gray-300 p-1">
-        <PlusIcon width={16} height={16} />
-      </DialogTrigger>
+    <Dialog open={newFileState.openDialog} onOpenChange={closeDialog} modal>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Create New File</DialogTitle>
@@ -68,13 +85,14 @@ export function NewFileDialog() {
         <div className="py-4">
           <Input
             placeholder="File Name"
-            value={fileName}
-            onChange={(ev) => setFileName(ev.target.value)}
+            value={newFileState.path}
+            onChange={(ev) => onPathChange(ev.target.value)}
             onKeyDown={(ev) => {
               if (ev.key === "Enter") {
                 handleSubmit();
               }
             }}
+            autoFocus
           />
         </div>
         <DialogFooter>
