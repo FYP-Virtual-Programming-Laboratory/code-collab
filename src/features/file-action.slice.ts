@@ -35,4 +35,5 @@ export const { fileDeletionFinshedOrCancelled, fileDeletionIntiated } =
 const fileActionReducer = globalSlice.reducer;
 export default fileActionReducer;
 
-export const selectFileAction = (state: RootState) => state.fileAction;
+export const selectDeleteFile = (state: RootState) =>
+  state.fileAction.deleteFile;

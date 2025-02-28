@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import {
   fileDeletionFinshedOrCancelled,
-  selectFileAction,
+  selectDeleteFile,
 } from "@/features/file-action.slice";
 import { selectProject } from "@/features/global.slice";
 import { fileClosed, selectOpenedFiles } from "@/features/opened-files.slice";
@@ -21,7 +21,7 @@ import {
 } from "../../ui/dialog";
 
 export function DeleteFileDialog() {
-  const explorer = useAppSelector(selectFileAction);
+  const deleteFileState = useAppSelector(selectDeleteFile);
   const { cache } = useContext(FileTreeContext);
   const project = useAppSelector(selectProject);
   const projectId = project?.id;
@@ -29,8 +29,8 @@ export function DeleteFileDialog() {
   const openedFiles = useAppSelector(selectOpenedFiles);
   const updateProjectDoc = useUpdateProjectDoc();
 
-  const file = explorer.deleteFile.fileId
-    ? cache[explorer.deleteFile.fileId]
+  const file = deleteFileState.fileId
+    ? cache[deleteFileState.fileId]
     : undefined;
 
   const [deleteFile] = useMutation(DELETE_FILE, {
@@ -59,7 +59,7 @@ export function DeleteFileDialog() {
   if (!file) return null;
 
   return (
-    <Dialog open={explorer.deleteFile.openDialog} onOpenChange={onClose} modal>
+    <Dialog open={deleteFileState.openDialog} onOpenChange={onClose} modal>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Delete {file.getName()}</DialogTitle>
