@@ -9,8 +9,8 @@ import { DELETE_FILE } from "@/gql/mutations";
 import { useUpdateProjectDoc } from "@/hooks/use-update-project-doc";
 import { useMutation } from "@apollo/client";
 import { useContext } from "react";
-import { FileTreeContext } from "../file-tree.context";
-import { Button } from "../ui/button";
+import { FileTreeContext } from "../../file-tree.context";
+import { Button } from "../../ui/button";
 import {
   Dialog,
   DialogContent,
@@ -18,7 +18,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "../ui/dialog";
+} from "../../ui/dialog";
 
 export function DeleteFileDialog() {
   const explorer = useAppSelector(selectExplorer);

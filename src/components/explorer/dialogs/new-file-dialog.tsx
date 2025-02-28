@@ -6,7 +6,7 @@ import { useUpdateProjectDoc } from "@/hooks/use-update-project-doc";
 import { useMutation } from "@apollo/client";
 import { PlusIcon } from "lucide-react";
 import { useState } from "react";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import {
   Dialog,
   DialogContent,
@@ -15,8 +15,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../ui/dialog";
-import { Input } from "../ui/input";
+} from "../../ui/dialog";
+import { Input } from "../../ui/input";
 
 export function NewFileDialog() {
   const project = useAppSelector(selectProject);
