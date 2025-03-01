@@ -18,7 +18,12 @@ export class DirNode extends AbstractNode {
     return node;
   }
 
-  getOrCreateFileChild(id: string, name: string, yObjects: YObjects) {
+  getOrCreateFileChild(
+    id: string,
+    name: string,
+    size: number,
+    yObjects: YObjects
+  ) {
     if (this.children.has(name)) {
       const node = this.children.get(name);
 
@@ -27,7 +32,7 @@ export class DirNode extends AbstractNode {
       }
     }
 
-    const node = new FileNode(id, name, this.level, this, yObjects);
+    const node = new FileNode(id, name, this.level, size, this, yObjects);
     this.addChild(node);
 
     return node;

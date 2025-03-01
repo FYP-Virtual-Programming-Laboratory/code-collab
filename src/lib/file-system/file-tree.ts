@@ -26,7 +26,12 @@ export function buildTree(files: FileSystemEntry[], yObjects: YObjects) {
     const parentNode = cache.get(file.parentId || "-1") || rootNode;
     const node =
       file.__typename === "File"
-        ? parentNode.getOrCreateFileChild(file.id, name, yObjects)
+        ? parentNode.getOrCreateFileChild(
+            file.id,
+            name,
+            file.size || 0,
+            yObjects
+          )
         : parentNode.getOrCreateDirChild(file.id, name);
 
     cache.set(file.id, node);

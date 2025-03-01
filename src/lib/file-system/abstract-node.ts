@@ -140,6 +140,7 @@ export abstract class AbstractNode {
   abstract getOrCreateFileChild(
     id: string,
     name: string,
+    size: number,
     yObjects: YObjects
   ): FileNode;
 }

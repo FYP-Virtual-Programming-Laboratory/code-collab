@@ -23,6 +23,7 @@ export class FileNode extends AbstractNode {
     id: string,
     name: string,
     level: number,
+    private size: number,
     parent: AbstractNode,
     yObjects: YObjects
   ) {
@@ -47,6 +48,14 @@ export class FileNode extends AbstractNode {
     });
 
     this.binding = new MonacoBinding(yText, model, undefined, awareness);
+  }
+
+  /**
+   * Retrieves the size of the file node.
+   * @returns The size of the file node.
+   */
+  getSize() {
+    return this.size;
   }
 
   /**
@@ -99,6 +108,8 @@ export class FileNode extends AbstractNode {
     _id: string,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _name: string,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _size: number,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _yObjects: YObjects
   ): FileNode {
