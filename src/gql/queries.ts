@@ -86,3 +86,16 @@ query GetFileHistory($fileId: String!) {
     committedBy
   }
 }`);
+
+export const GET_PROJECT_CONTRIBUTIONS = gql(`
+query GetProjectContributions($projectId: Int!) {
+  getProject(id: $projectId) {
+    contributions {
+      contributionStats {
+        contributor
+        contributions
+      }
+      contributors
+    }
+  }
+}`);

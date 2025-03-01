@@ -33,6 +33,7 @@ type Documents = {
     "\nquery GetFileContent($fileId: String!) {\n  getFile(fileId: $fileId) {\n    content\n  }\n}": typeof types.GetFileContentDocument,
     "\nquery GetFileMeta($fileId: String!) {\n  getFile(fileId: $fileId) {\n    createdAt\n    id\n    lastModified\n    path\n    size\n  }\n}": typeof types.GetFileMetaDocument,
     "\nquery GetFileHistory($fileId: String!) {\n  getFileVersions(fileId: $fileId) {\n    id\n    createdAt\n    committedBy\n  }\n}": typeof types.GetFileHistoryDocument,
+    "\nquery GetProjectContributions($projectId: Int!) {\n  getProject(id: $projectId) {\n    contributions {\n      contributionStats {\n        contributor\n        contributions\n      }\n      contributors\n    }\n  }\n}": typeof types.GetProjectContributionsDocument,
 };
 const documents: Documents = {
     "\nmutation UpdateFile($fileId: String!, $newContent: String!, $projectId: Int!, $yDocUpdates: String!, $snapshot: String!) {\n  updateFile(fileId: $fileId, newContent: $newContent, projectId: $projectId, yDocUpdates: $yDocUpdates, snapshot: $snapshot) {\n    id\n    size\n    content\n    lastModified\n  }\n}": types.UpdateFileDocument,
@@ -54,6 +55,7 @@ const documents: Documents = {
     "\nquery GetFileContent($fileId: String!) {\n  getFile(fileId: $fileId) {\n    content\n  }\n}": types.GetFileContentDocument,
     "\nquery GetFileMeta($fileId: String!) {\n  getFile(fileId: $fileId) {\n    createdAt\n    id\n    lastModified\n    path\n    size\n  }\n}": types.GetFileMetaDocument,
     "\nquery GetFileHistory($fileId: String!) {\n  getFileVersions(fileId: $fileId) {\n    id\n    createdAt\n    committedBy\n  }\n}": types.GetFileHistoryDocument,
+    "\nquery GetProjectContributions($projectId: Int!) {\n  getProject(id: $projectId) {\n    contributions {\n      contributionStats {\n        contributor\n        contributions\n      }\n      contributors\n    }\n  }\n}": types.GetProjectContributionsDocument,
 };
 
 /**
@@ -146,6 +148,10 @@ export function gql(source: "\nquery GetFileMeta($fileId: String!) {\n  getFile(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\nquery GetFileHistory($fileId: String!) {\n  getFileVersions(fileId: $fileId) {\n    id\n    createdAt\n    committedBy\n  }\n}"): (typeof documents)["\nquery GetFileHistory($fileId: String!) {\n  getFileVersions(fileId: $fileId) {\n    id\n    createdAt\n    committedBy\n  }\n}"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\nquery GetProjectContributions($projectId: Int!) {\n  getProject(id: $projectId) {\n    contributions {\n      contributionStats {\n        contributor\n        contributions\n      }\n      contributors\n    }\n  }\n}"): (typeof documents)["\nquery GetProjectContributions($projectId: Int!) {\n  getProject(id: $projectId) {\n    contributions {\n      contributionStats {\n        contributor\n        contributions\n      }\n      contributors\n    }\n  }\n}"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};
