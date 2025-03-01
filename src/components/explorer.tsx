@@ -1,6 +1,6 @@
+import { Contributions } from "./explorer/contributions";
 import { ExplorerDialogs } from "./explorer/dialogs";
 import { DirTree } from "./explorer/dir-tree";
-import { Contributions } from "./explorer/file-information";
 import { Separator } from "./ui/separator";
 
 export default function Explorer() {
