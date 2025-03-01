@@ -38,7 +38,7 @@ export function Contributions() {
                 <span className="font-bold">{stat.contributor}</span>
                 <span className="text-xs font-semibold text-neutral-600">
                   {stat.contributions} changes ·{" "}
-                  {Math.fround((stat.contributions / totalContributions) * 100)}
+                  {((stat.contributions / totalContributions) * 100).toFixed(2)}
                   %
                 </span>
               </div>
