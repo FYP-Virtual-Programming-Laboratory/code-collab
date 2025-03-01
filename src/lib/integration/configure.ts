@@ -5,7 +5,6 @@ const KVStore = {
   wsUrl: "ws://localhost:1234",
   signalUrl: "ws://localhost:4444",
   user: undefined as string | undefined,
-  sessionId: undefined as string | undefined,
 };
 
 export function getConfig(key: keyof typeof KVStore) {
@@ -23,19 +22,16 @@ export async function configure({
   wsUrl = KVStore.wsUrl,
   signalUrl = KVStore.signalUrl,
   user,
-  sessionId,
 }: {
   gqlUrl?: string;
   wsUrl?: string;
   signalUrl?: string;
   user: string;
-  sessionId: string;
 }) {
   KVStore.gqlUrl = gqlUrl;
   KVStore.wsUrl = wsUrl;
   KVStore.signalUrl = signalUrl;
   KVStore.user = user;
-  KVStore.sessionId = sessionId;
 
   await initLoader();
 }

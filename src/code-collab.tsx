@@ -8,8 +8,7 @@ import { useMemo } from "react";
 import "./index.css";
 import { getConfig } from "./lib/integration/configure";
 
-export default function CodeCollab() {
-  const sessionId = useMemo(() => getConfig("sessionId"), []);
+export default function CodeCollab({ sessionId }: { sessionId: string }) {
   const user = useMemo(() => getConfig("user"), []);
 
   return (

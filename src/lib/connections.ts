@@ -2,6 +2,7 @@ import { Awareness } from "y-protocols/awareness.js";
 import { WebrtcProvider } from "y-webrtc";
 import { WebsocketProvider } from "y-websocket";
 import { Doc } from "yjs";
+import { getConfig } from "./integration/configure";
 
 export function setUpWebSocketProvider(
   roomname: string,
@@ -11,14 +12,9 @@ export function setUpWebSocketProvider(
   }
 ) {
   const { awareness, doc } = yObjects;
-  const wsProvider = new WebsocketProvider(
-    "ws://localhost:1234",
-    roomname,
-    doc,
-    {
-      awareness,
-    }
-  );
+  const wsProvider = new WebsocketProvider(getConfig("wsUrl"), roomname, doc, {
+    awareness,
+  });
   wsProvider.on(
     "status",
     (event: { status: "disconnected" | "connecting" | "connected" }) => {
@@ -49,8 +45,7 @@ export function setUpWebRTCProvider(
   const { awareness, doc } = yObjects;
   const webRtcProvider = new WebrtcProvider(roomname, doc, {
     awareness,
-    signaling: ["ws://localhost:4444"],
-    password: "passybobo",
+    signaling: [getConfig("signalUrl")],
   });
   webRtcProvider.on("status", (event) => {
     switch (event.connected) {

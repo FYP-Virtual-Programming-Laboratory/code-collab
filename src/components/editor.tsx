@@ -1,5 +1,5 @@
 import { Editor as MonacoEditor } from "@monaco-editor/react";
-import { editor } from "monaco-editor";
+import { editor, Uri } from "monaco-editor";
 import { useCallback, useEffect, useState } from "react";
 
 import { useAppSelector } from "@/app/hooks";
@@ -13,14 +13,16 @@ import {
 } from "@/lib/editor";
 import { FileNode } from "@/lib/file-system/file-node";
 import { cn } from "@/lib/utils";
+import { VersionNode } from "../features/opened-files.slice";
 import "./editor.css";
 import { AwarenessState } from "./y-objects-provider";
 
 type EditorProps = {
   file: FileNode | null;
+  version: VersionNode | null;
 };
 
-export default function Editor({ file }: Readonly<EditorProps>) {
+export default function Editor({ file, version }: Readonly<EditorProps>) {
   const username = useAppSelector(selectUsername);
 
   const [monacoEditor, setMonacoEditor] =
@@ -30,10 +32,17 @@ export default function Editor({ file }: Readonly<EditorProps>) {
   const { awareness } = useYObjects();
 
   useEffect(() => {
-    if (!monacoEditor || !file) return;
+    if (!monacoEditor || (!file && !version)) return;
 
-    monacoEditor.setModel(file.getBinding().monacoModel);
-  }, [monacoEditor, file]);
+    if (file) monacoEditor.setModel(file.getBinding().monacoModel);
+    if (version) {
+      const uri = Uri.parse("file://" + version.id + "-" + version.path);
+      const model =
+        editor.getModel(uri) ??
+        editor.createModel(version.content, undefined, uri);
+      monacoEditor.setModel(model);
+    }
+  }, [monacoEditor, file, version]);
 
   useEffect(() => {
     if (monacoEditor) {
@@ -94,7 +103,10 @@ export default function Editor({ file }: Readonly<EditorProps>) {
       defaultLanguage="javascript"
       onMount={handleOnMount}
       loading=""
-      className={cn({ hidden: !file })}
+      className={cn({ hidden: !file && !version })}
+      options={{
+        readOnly: !!version,
+      }}
     />
   );
 }

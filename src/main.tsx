@@ -5,15 +5,13 @@ import { CodeCollab, configure } from "./index";
 
 const user =
   new URLSearchParams(window.location.search).get("user") || "farayolaj";
-console.log(user);
 
 configure({
-  sessionId: "123456",
   user,
 }).then(() => {
   createRoot(document.getElementById("root")!).render(
     <StrictMode>
-      <CodeCollab />
+      <CodeCollab sessionId="123456" />
     </StrictMode>
   );
 });

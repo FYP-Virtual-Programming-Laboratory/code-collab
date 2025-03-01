@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { createDocFromSnapshot, decodeSnapshotV2, Doc } from "yjs";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -34,4 +35,12 @@ export function bytesToBase64(bytes: Uint8Array) {
   }
 
   return btoa(binaryString);
+}
+
+export function snapshotToDoc(data: string, doc: Doc) {
+  // doc.gc = false;
+  const snapshot = decodeSnapshotV2(base64ToBytes(data));
+  const newDoc = createDocFromSnapshot(doc, snapshot);
+  // doc.gc = true;
+  return newDoc;
 }

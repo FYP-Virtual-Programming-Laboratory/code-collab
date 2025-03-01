@@ -45,7 +45,7 @@ export default function YObjectsProvider({
   useEffect(() => {
     if (!username) return;
 
-    const _doc = new Doc();
+    const _doc = new Doc({ gc: false });
     // @ts-expect-error - Expose the doc object to the window for debugging
     window.doc = doc.current;
     const _awareness = new Awareness(_doc);

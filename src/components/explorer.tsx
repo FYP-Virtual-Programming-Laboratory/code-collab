@@ -1,6 +1,7 @@
 import { Contributions } from "./explorer/contributions";
 import { ExplorerDialogs } from "./explorer/dialogs";
 import { DirTree } from "./explorer/dir-tree";
+import { FileVersions } from "./explorer/file-versions";
 import { Separator } from "./ui/separator";
 
 export default function Explorer() {
@@ -12,6 +13,7 @@ export default function Explorer() {
       <Separator />
       <DirTree />
       <Contributions />
+      <FileVersions />
       <ExplorerDialogs />
     </div>
   );
