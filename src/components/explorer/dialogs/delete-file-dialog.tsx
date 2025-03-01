@@ -30,7 +30,7 @@ export function DeleteFileDialog() {
   const updateProjectDoc = useUpdateProjectDoc();
 
   const file = deleteFileState.fileId
-    ? cache[deleteFileState.fileId]
+    ? cache.get(deleteFileState.fileId)
     : undefined;
 
   const [deleteFile] = useMutation(DELETE_FILE, {

@@ -20,7 +20,7 @@ export class FileNode extends AbstractNode {
    * @param parent - The optional parent node.
    */
   constructor(
-    id: number,
+    id: string,
     name: string,
     level: number,
     parent: AbstractNode,
@@ -91,12 +91,12 @@ export class FileNode extends AbstractNode {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  getOrCreateDirChild(_id: number, _name: string): DirNode {
+  getOrCreateDirChild(_id: string, _name: string): DirNode {
     throw new Error("File nodes cannot have children");
   }
   getOrCreateFileChild(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _id: number,
+    _id: string,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _name: string,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

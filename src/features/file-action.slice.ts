@@ -4,7 +4,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 export type FileActionState = {
   deleteFile: {
     openDialog: boolean;
-    fileId?: number;
+    fileId?: string;
   };
   newFile: {
     path: string;
@@ -27,7 +27,7 @@ const globalSlice = createSlice({
   name: "explorer",
   initialState,
   reducers: {
-    fileDeletionIntiated: (state, action: PayloadAction<number>) => {
+    fileDeletionIntiated: (state, action: PayloadAction<string>) => {
       state.deleteFile.fileId = action.payload;
       state.deleteFile.openDialog = true;
     },

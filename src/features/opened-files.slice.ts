@@ -5,7 +5,7 @@ type OpenedFilesState = {
   /** The index of the active file in the {@link OpenedFilesState.files files} array, or null if no file is active. */
   activeFileIdx: number | null;
   /** An array of ids of files that are opened. */
-  files: number[];
+  files: string[];
 };
 
 const initialState: OpenedFilesState = {
@@ -17,7 +17,7 @@ const openedFilesSlice = createSlice({
   name: "openedFiles",
   initialState,
   reducers: {
-    fileOpened: (state, action: PayloadAction<{ fileId: number }>) => {
+    fileOpened: (state, action: PayloadAction<{ fileId: string }>) => {
       const idx = state.files.indexOf(action.payload.fileId);
 
       if (idx !== -1) {
@@ -40,7 +40,6 @@ const openedFilesSlice = createSlice({
 
       const fileId = state.files[action.payload.index];
       state.files = state.files.filter((id) => id !== fileId);
-      console.log(state.files);
 
       if (state.activeFileIdx === action.payload.index) {
         if (state.files.length === 0) {

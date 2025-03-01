@@ -28,7 +28,8 @@ export default function EditorTabs() {
   const projectId = project?.id;
 
   const activeFile = useMemo(
-    () => (activeFileIdx !== null ? cache[openedFiles[activeFileIdx]] : null),
+    () =>
+      activeFileIdx !== null ? cache.get(openedFiles[activeFileIdx]) : null,
     [activeFileIdx, cache, openedFiles]
   );
 
@@ -55,7 +56,7 @@ export default function EditorTabs() {
     <div className="w-full">
       <div className="inline-flex items-center text-muted-foreground w-full justify-start border-b h-9">
         {openedFiles
-          .map((id) => cache[id])
+          .map((id) => cache.get(id))
           .filter((node) => !!node)
           .map((node, idx) => (
             <div key={node.getId()} className="relative flex items-center">
@@ -76,7 +77,7 @@ export default function EditorTabs() {
                 )}
                 title={`Close ${node.getPath()}`}
                 onClick={() => {
-                  handleFileUpdate(node);
+                  handleFileUpdate(node as FileNode);
                   dispatch(fileClosed({ index: idx }));
                 }}
               >
@@ -86,7 +87,7 @@ export default function EditorTabs() {
           ))}
       </div>
       <div className="mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
-        <Editor file={activeFile} />
+        <Editor file={activeFile as FileNode} />
       </div>
     </div>
   );

@@ -53,20 +53,22 @@ query ListFiles($projectId: Int!) {
       id
       parentId
       path
+      createdAt
+      lastModified
       __typename
     }
   }
 }`);
 
 export const GET_FILE_CONTENT = gql(`
-query GetFileContent($fileId: Int!) {
+query GetFileContent($fileId: String!) {
   getFile(fileId: $fileId) {
     content
   }
 }`);
 
 export const GET_FILE_META = gql(`
-query GetFileMeta($fileId: Int!) {
+query GetFileMeta($fileId: String!) {
   getFile(fileId: $fileId) {
     createdAt
     id
@@ -77,7 +79,7 @@ query GetFileMeta($fileId: Int!) {
 }`);
 
 export const GET_FILE_HISTORY = gql(`
-query GetFileHistory($fileId: Int!) {
+query GetFileHistory($fileId: String!) {
   getFileVersions(fileId: $fileId) {
     id
     createdAt

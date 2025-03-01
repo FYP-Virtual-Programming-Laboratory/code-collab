@@ -3,7 +3,7 @@ import { AbstractNode, NodeType } from "./abstract-node";
 import { FileNode } from "./file-node";
 
 export class DirNode extends AbstractNode {
-  getOrCreateDirChild(id: number, name: string) {
+  getOrCreateDirChild(id: string, name: string) {
     if (this.children.has(name)) {
       const node = this.children.get(name);
 
@@ -18,7 +18,7 @@ export class DirNode extends AbstractNode {
     return node;
   }
 
-  getOrCreateFileChild(id: number, name: string, yObjects: YObjects) {
+  getOrCreateFileChild(id: string, name: string, yObjects: YObjects) {
     if (this.children.has(name)) {
       const node = this.children.get(name);
 

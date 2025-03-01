@@ -25,7 +25,7 @@ export abstract class AbstractNode {
    * @param parent - The parent node, if any.
    */
   constructor(
-    private readonly id: number,
+    private readonly id: string,
     protected readonly name: string,
     protected readonly level: number,
     protected readonly parent: AbstractNode | null = null
@@ -135,10 +135,10 @@ export abstract class AbstractNode {
 
   abstract nodeType(): NodeType;
 
-  abstract getOrCreateDirChild(id: number, name: string): DirNode;
+  abstract getOrCreateDirChild(id: string, name: string): DirNode;
 
   abstract getOrCreateFileChild(
-    id: number,
+    id: string,
     name: string,
     yObjects: YObjects
   ): FileNode;

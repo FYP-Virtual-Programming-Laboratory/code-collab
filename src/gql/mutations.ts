@@ -1,7 +1,7 @@
 import { gql } from "@/__generated__";
 
 export const UPDATE_FILE = gql(`
-mutation UpdateFile($fileId: Int!, $newContent: String!, $projectId: Int!, $yDocUpdates: String!, $snapshot: String!) {
+mutation UpdateFile($fileId: String!, $newContent: String!, $projectId: Int!, $yDocUpdates: String!, $snapshot: String!) {
   updateFile(fileId: $fileId, newContent: $newContent, projectId: $projectId, yDocUpdates: $yDocUpdates, snapshot: $snapshot) {
     id
     size
@@ -52,7 +52,7 @@ mutation UpdateProjectDoc($projectId: Int!, $doc: String!) {
 }`);
 
 export const DELETE_FILE = gql(`
-mutation DeleteFile($fileId: Int!) {
+mutation DeleteFile($fileId: String!) {
   deleteFile(fileId: $fileId) {
     id
     path
@@ -60,7 +60,7 @@ mutation DeleteFile($fileId: Int!) {
 }`);
 
 export const RENAME_FILE = gql(`
-mutation RenameFile($fileId: Int!, $newName: String!) {
+mutation RenameFile($fileId: String!, $newName: String!) {
   renameFile(fileId: $fileId, newName: $newName) {
     id
     path
@@ -77,7 +77,7 @@ mutation GetOrCreateDirectory($projectId: Int!, $path: String!) {
 }`);
 
 export const RENAME_DIRECTORY = gql(`
-mutation RenameDirectory($renameDirectoryId: Int!, $newName: String!) {
+mutation RenameDirectory($renameDirectoryId: String!, $newName: String!) {
   renameDirectory(id: $renameDirectoryId, newName: $newName) {
     id
     path
@@ -85,7 +85,7 @@ mutation RenameDirectory($renameDirectoryId: Int!, $newName: String!) {
 }`);
 
 export const DELETE_DIRECTORY = gql(`
-mutation DeleteDirectory($deleteDirectoryId: Int!) {
+mutation DeleteDirectory($deleteDirectoryId: String!) {
   deleteDirectory(id: $deleteDirectoryId) {
     id
     path

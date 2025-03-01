@@ -1,85 +1,38 @@
 import { YObjects } from "@/contexts/y-objects-context";
+import { FileSystemEntry } from "../../__generated__/graphql";
 import { AbstractNode, NodeType } from "./abstract-node";
 import { DirNode } from "./dir-node";
 import { FileNode } from "./file-node";
 
-export function buildTree(
-  files: { id: number; path: string; content: string }[],
-  yObjects: YObjects
-) {
-  const rootNode = new DirNode(0, "", 0);
+export function buildTree(files: FileSystemEntry[], yObjects: YObjects) {
+  const _files = [...files].sort((a, b) => {
+    if (a.__typename === "File" && b.__typename === "Directory") {
+      // Directories first
+      return 1;
+    } else if (a.__typename === "Directory" && b.__typename === "File") {
+      return -1;
+    }
 
-  files.forEach((file) => {
+    return a.path.length - b.path.length;
+  }); // Sort by path length, ensures parent directories are created first.
+
+  const cache = new Map<string, AbstractNode>();
+  const rootNode = new DirNode("0", "", 0);
+  cache.set(rootNode.getId(), rootNode);
+
+  _files.forEach((file) => {
     const parts = file.path.split("/");
-    let currentNode = rootNode;
+    const name = parts.pop()!;
+    const parentNode = cache.get(file.parentId || "-1") || rootNode;
+    const node =
+      file.__typename === "File"
+        ? parentNode.getOrCreateFileChild(file.id, name, yObjects)
+        : parentNode.getOrCreateDirChild(file.id, name);
 
-    for (let i = 0; i < parts.length; i++) {
-      const part = parts[i];
-
-      if (i === parts.length - 1) {
-        currentNode.getOrCreateFileChild(file.id, part, yObjects);
-      } else {
-        currentNode = currentNode.getOrCreateDirChild(file.id, part);
-      }
-    }
+    cache.set(file.id, node);
   });
 
-  return rootNode;
-}
-
-// const NODE_CACHE: Record<string, AbstractNode> = {};
-
-export function updateTree(
-  fileTree: DirNode,
-  files: {
-    id: number;
-    path: string;
-    content: string;
-  }[],
-  yObjects: YObjects
-) {
-  const visited = new Set<string>();
-
-  files.forEach((file) => {
-    const parts = file.path.split("/");
-    let currentNode = fileTree;
-
-    for (let i = 0; i < parts.length; i++) {
-      const part = parts[i];
-
-      if (i === parts.length - 1) {
-        const fileNode = currentNode.getOrCreateFileChild(
-          file.id,
-          part,
-          yObjects
-        );
-        visited.add(fileNode.getPath());
-      } else {
-        currentNode = currentNode.getOrCreateDirChild(file.id, part);
-      }
-    }
-  });
-
-  // Remove files that are no longer present in the project.
-  dfsTraversal(fileTree, (node) => {
-    if (node instanceof FileNode && !visited.has(node.getPath())) {
-      node.getParent()?.removeChild(node);
-    }
-  });
-
-  return fileTree;
-}
-
-export function initFileCache(root: DirNode) {
-  const cache: Record<number, FileNode> = {};
-
-  dfsTraversal(root, (node) => {
-    if (node instanceof FileNode) {
-      cache[node.getId()] = node;
-    }
-  });
-
-  return cache;
+  return { cache, rootNode };
 }
 
 /* TODO: Improve by using better suited data structure in `Node` class. */
