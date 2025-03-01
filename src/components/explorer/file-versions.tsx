@@ -27,6 +27,7 @@ export function FileVersions() {
     variables: {
       fileId: activeFile?.getId() || versionFileId || "0",
     },
+    fetchPolicy: "network-only",
   });
   const { doc } = useYObjects();
   const dispatch = useAppDispatch();

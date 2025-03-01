@@ -42,6 +42,12 @@ export default function Editor({ file, version }: Readonly<EditorProps>) {
         editor.createModel(version.content, undefined, uri);
       monacoEditor.setModel(model);
     }
+
+    monacoEditor.focus();
+
+    return () => {
+      monacoEditor.setModel(null);
+    };
   }, [monacoEditor, file, version]);
 
   useEffect(() => {
