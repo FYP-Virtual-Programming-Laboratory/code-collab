@@ -1,5 +1,6 @@
 import type { RootState } from "@/app/store";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Version } from "../__generated__/graphql";
 
 export type FileActionState = {
   deleteFile: {
@@ -8,6 +9,10 @@ export type FileActionState = {
   };
   newFile: {
     path: string;
+    openDialog: boolean;
+  };
+  revertFile: {
+    version?: Version;
     openDialog: boolean;
   };
 };
@@ -19,6 +24,10 @@ const initialState: FileActionState = {
   },
   newFile: {
     path: "",
+    openDialog: false,
+  },
+  revertFile: {
+    version: undefined,
     openDialog: false,
   },
 };
@@ -47,6 +56,13 @@ const globalSlice = createSlice({
     newFileDialogClosed: (state) => {
       state.newFile.openDialog = false;
     },
+    revertFileDialogOpened: (state, action: PayloadAction<Version>) => {
+      state.revertFile.version = action.payload;
+      state.revertFile.openDialog = true;
+    },
+    revertFileDialogClosed: (state) => {
+      state.revertFile.openDialog = false;
+    },
   },
 });
 
@@ -57,6 +73,8 @@ export const {
   newFilePathChanged,
   newFilePathReset,
   newFileDialogClosed,
+  revertFileDialogOpened,
+  revertFileDialogClosed,
 } = globalSlice.actions;
 
 const fileActionReducer = globalSlice.reducer;
@@ -65,3 +83,5 @@ export default fileActionReducer;
 export const selectDeleteFile = (state: RootState) =>
   state.fileAction.deleteFile;
 export const selectNewFile = (state: RootState) => state.fileAction.newFile;
+export const selectRevertFileState = (state: RootState) =>
+  state.fileAction.revertFile;

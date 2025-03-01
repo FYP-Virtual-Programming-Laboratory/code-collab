@@ -85,6 +85,7 @@ query GetFileHistory($fileId: String!) {
     createdAt
     committedBy
     snapshot
+    fileId
   }
 }`);
 

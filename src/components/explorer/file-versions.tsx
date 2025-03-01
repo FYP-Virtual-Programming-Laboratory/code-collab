@@ -2,6 +2,7 @@ import { useQuery } from "@apollo/client";
 import { useContext } from "react";
 import { Version } from "../../__generated__/graphql";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { revertFileDialogOpened } from "../../features/file-action.slice";
 import {
   selectActiveFileId,
   selectVersions,
@@ -12,6 +13,7 @@ import { useYObjects } from "../../hooks/use-y-objects";
 import { FileNode } from "../../lib/file-system/file-node";
 import { snapshotToDoc } from "../../lib/utils";
 import { FileTreeContext } from "../file-tree.context";
+import { Button } from "../ui/button";
 import { ExplorerItem } from "./explorer-item";
 
 export function FileVersions() {
@@ -67,7 +69,7 @@ export function FileVersions() {
             {data.getFileVersions.map((version) => (
               <div
                 key={version.id}
-                className="flex flex-col cursor-pointer hover:bg-gray-300 px-2"
+                className="relative group flex flex-col cursor-pointer hover:bg-gray-300 px-2"
                 onClick={() => onVersionSelect(version)}
               >
                 <span className="font-bold">
@@ -76,6 +78,18 @@ export function FileVersions() {
                 <span className="text-xs font-semibold text-neutral-600">
                   Committed by {version.committedBy}
                 </span>
+                <div className="div absolute right-2 h-full items-center hidden group-hover:flex">
+                  <Button
+                    size={"sm"}
+                    className="h-6"
+                    onClick={(ev) => {
+                      ev.stopPropagation();
+                      dispatch(revertFileDialogOpened(version));
+                    }}
+                  >
+                    Revert
+                  </Button>
+                </div>
               </div>
             ))}
           </div>
