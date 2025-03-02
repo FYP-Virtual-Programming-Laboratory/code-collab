@@ -1,6 +1,6 @@
 import { Editor as MonacoEditor } from "@monaco-editor/react";
 import { editor, Uri } from "monaco-editor";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 
 import { useAppSelector } from "@/app/hooks";
 import { selectUsername } from "@/features/global.slice";
@@ -14,6 +14,7 @@ import {
 import { FileNode } from "@/lib/file-system/file-node";
 import { cn } from "@/lib/utils";
 import { VersionNode } from "../features/opened-files.slice";
+import { DisplayNameContext } from "./context/display-name.context";
 import "./editor.css";
 import { AwarenessState } from "./y-objects-provider";
 
@@ -24,6 +25,7 @@ type EditorProps = {
 
 export default function Editor({ file, version }: Readonly<EditorProps>) {
   const username = useAppSelector(selectUsername);
+  const { getDisplayName } = useContext(DisplayNameContext);
 
   const [monacoEditor, setMonacoEditor] =
     useState<editor.IStandaloneCodeEditor>();
@@ -76,9 +78,15 @@ export default function Editor({ file, version }: Readonly<EditorProps>) {
     awareness.on("change", () => {
       if (decorations) {
         let states = [...awareness.getStates().values()] as AwarenessState[];
-        states = states.filter(
-          (state) => state.user && state.user.name !== username
-        );
+        states = states
+          .filter((state) => state.user && state.user.name !== username)
+          .map((state) => ({
+            ...state,
+            user: {
+              ...state.user,
+              name: getDisplayName(state.user.name),
+            },
+          }));
 
         injectStyles(awarenessToStyle(states));
 
@@ -86,7 +94,7 @@ export default function Editor({ file, version }: Readonly<EditorProps>) {
         renderDecorations(decorations, modelDecorations);
       }
     });
-  }, [awareness, decorations, monacoEditor, username]);
+  }, [awareness, decorations, getDisplayName, monacoEditor, username]);
 
   const handleOnMount = useCallback((e: editor.IStandaloneCodeEditor) => {
     setMonacoEditor(e);

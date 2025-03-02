@@ -1,6 +1,6 @@
+import { FileTreeContext } from "@/components/context/file-tree.context";
 import EditorTabs from "@/components/editor-tabs";
 import Explorer from "@/components/explorer";
-import { FileTreeContext } from "@/components/file-tree.context";
 import {
   ResizableHandle,
   ResizablePanel,

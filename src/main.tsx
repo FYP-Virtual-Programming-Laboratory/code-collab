@@ -11,7 +11,15 @@ configure({
 }).then(() => {
   createRoot(document.getElementById("root")!).render(
     <StrictMode>
-      <CodeCollab sessionId="123456" />
+      <CodeCollab
+        sessionId="123456"
+        getDisplayName={(user) =>
+          ({
+            farayolaj: "Joshua Farayola",
+            johndoe: "John Doe",
+          }[user] || user)
+        }
+      />
     </StrictMode>
   );
 });

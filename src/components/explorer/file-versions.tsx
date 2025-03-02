@@ -12,7 +12,7 @@ import { GET_FILE_HISTORY } from "../../gql/queries";
 import { useYObjects } from "../../hooks/use-y-objects";
 import { FileNode } from "../../lib/file-system/file-node";
 import { snapshotToDoc } from "../../lib/utils";
-import { FileTreeContext } from "../file-tree.context";
+import { FileTreeContext } from "../context/file-tree.context";
 import { Button } from "../ui/button";
 import { ExplorerItem } from "./explorer-item";
 

@@ -15,8 +15,8 @@ import { X } from "lucide-react";
 import { useCallback, useContext, useMemo } from "react";
 import { encodeSnapshotV2, encodeStateAsUpdateV2, snapshot } from "yjs";
 import { AbstractNode } from "../lib/file-system/abstract-node";
+import { FileTreeContext } from "./context/file-tree.context";
 import Editor from "./editor";
-import { FileTreeContext } from "./file-tree.context";
 import { buttonVariants } from "./ui/button";
 
 export default function EditorTabs() {

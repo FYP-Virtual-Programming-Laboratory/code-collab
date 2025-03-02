@@ -1,12 +1,14 @@
 import { useQuery } from "@apollo/client";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useAppSelector } from "../../app/hooks";
 import { selectProject } from "../../features/global.slice";
 import { GET_PROJECT_CONTRIBUTIONS } from "../../gql/queries";
+import { DisplayNameContext } from "../context/display-name.context";
 import { ExplorerItem } from "./explorer-item";
 
 export function Contributions() {
   const projectId = useAppSelector(selectProject)?.id ?? 0;
+  const { getDisplayName } = useContext(DisplayNameContext);
   const { data, loading, startPolling, stopPolling } = useQuery(
     GET_PROJECT_CONTRIBUTIONS,
     {
@@ -40,7 +42,7 @@ export function Contributions() {
           <div className="flex flex-col gap-2">
             {data.getProject?.contributions.contributors.map((contributor) => (
               <div key={contributor} className="flex flex-col">
-                <span className="font-bold">{contributor}</span>
+                <span className="font-bold">{getDisplayName(contributor)}</span>
                 <span className="text-xs font-semibold text-neutral-600">
                   {contributionsMap[contributor] || 0} changes ·{" "}
                   {(

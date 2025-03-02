@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
-import { FileTreeContext } from "@/components/file-tree.context";
+import { FileTreeContext } from "@/components/context/file-tree.context";
 import { newFileDialogOpened } from "@/features/file-action.slice";
 import { selectProject } from "@/features/global.slice";
 import { Plus } from "lucide-react";
