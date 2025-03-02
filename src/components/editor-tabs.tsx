@@ -24,7 +24,9 @@ export default function EditorTabs() {
   const openedFiles = useAppSelector(selectOpenedFiles);
   const activeFileIdx = useAppSelector(selectActiveFileIdx);
   const { cache } = useContext(FileTreeContext);
-  const [updateFile] = useMutation(UPDATE_FILE);
+  const [updateFile] = useMutation(UPDATE_FILE, {
+    refetchQueries: ["GetProjectContributions"],
+  });
   const project = useAppSelector(selectProject);
   const projectId = project?.id;
   const versions = useAppSelector(selectVersions);

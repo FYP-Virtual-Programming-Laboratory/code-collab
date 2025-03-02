@@ -54,36 +54,6 @@ export default function useContextMenu(node: AbstractNode) {
       ) : undefined,
       <ContextMenuSeparator key={`separator-after-new-folder-${id}`} />,
       <ContextMenuItem
-        key={`copy-${id}`}
-        onClick={() => console.log(`Copy ${path}`)}
-        inset
-      >
-        Copy
-      </ContextMenuItem>,
-      <ContextMenuItem
-        key={`cut-${id}`}
-        onClick={() => console.log(`Cut ${path}`)}
-        inset
-      >
-        Cut
-      </ContextMenuItem>,
-      <ContextMenuSeparator key={`separator-after-cut-${id}`} />,
-      <ContextMenuItem
-        key={`copy-path-${id}`}
-        onClick={() => console.log(`Copy Path: ${path}`)}
-        inset
-      >
-        Copy Path
-      </ContextMenuItem>,
-      <ContextMenuItem
-        key={`copy-relative-path-${id}`}
-        onClick={() => console.log(`Copy Relative Path: ${path}`)}
-        inset
-      >
-        Copy Relative Path
-      </ContextMenuItem>,
-      <ContextMenuSeparator key={`separator-after-copy-relative-path-${id}`} />,
-      <ContextMenuItem
         key={`rename-${id}`}
         onClick={() => console.log("Rename")}
         inset
