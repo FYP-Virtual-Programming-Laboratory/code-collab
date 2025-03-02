@@ -65,7 +65,7 @@ export default function EditorTabs() {
 
   return (
     <div className="w-full">
-      <div className="inline-flex items-center text-muted-foreground w-full justify-start border-b h-9">
+      <div className="inline-flex items-center text-muted-foreground w-full justify-start border-b h-9 overflow-x-auto">
         {openedFiles
           .map((id) => cache.get(id) || versions[id])
           .filter((node) => !!node)
