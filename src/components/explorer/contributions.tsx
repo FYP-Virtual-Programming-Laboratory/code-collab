@@ -13,6 +13,11 @@ export function Contributions() {
       variables: { projectId },
     }
   );
+  const contributionsMap =
+    data?.getProject?.contributions.contributionStats.reduce((acc, stat) => {
+      acc[stat.contributor] = stat.contributions;
+      return acc;
+    }, {} as Record<string, number>) || {};
   const totalContributions =
     data?.getProject?.contributions.contributionStats.reduce(
       (acc, stat) => acc + stat.contributions,
@@ -33,12 +38,16 @@ export function Contributions() {
         {loading && <p className="text-center">Loading...</p>}
         {data && (
           <div className="flex flex-col gap-2">
-            {data.getProject?.contributions.contributionStats.map((stat) => (
-              <div key={stat.contributor} className="flex flex-col">
-                <span className="font-bold">{stat.contributor}</span>
+            {data.getProject?.contributions.contributors.map((contributor) => (
+              <div key={contributor} className="flex flex-col">
+                <span className="font-bold">{contributor}</span>
                 <span className="text-xs font-semibold text-neutral-600">
-                  {stat.contributions} changes ·{" "}
-                  {((stat.contributions / totalContributions) * 100).toFixed(2)}
+                  {contributionsMap[contributor] || 0} changes ·{" "}
+                  {(
+                    ((contributionsMap[contributor] || 0) /
+                      totalContributions) *
+                    100
+                  ).toFixed(2)}
                   %
                 </span>
               </div>
