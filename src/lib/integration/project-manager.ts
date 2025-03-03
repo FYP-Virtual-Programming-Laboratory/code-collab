@@ -5,7 +5,11 @@ import {
   REMOVE_PROJECT_MEMBER_MUTATION,
   UPDATE_PROJECT_MUTATION,
 } from "@/gql/mutations";
-import { GET_PROJECT_QUERY, LIST_PROJECT_FILES_QUERY } from "@/gql/queries";
+import {
+  GET_PROJECT_CONTRIBUTIONS,
+  GET_PROJECT_QUERY,
+  LIST_PROJECT_FILES_QUERY,
+} from "@/gql/queries";
 
 export class ProjectManager {
   static async createProject({
@@ -114,5 +118,20 @@ export class ProjectManager {
     }
 
     return res.data?.listFiles ?? [];
+  }
+
+  static async getContributions({ projectId }: { projectId: number }) {
+    const res = await getApolloClient().query({
+      query: GET_PROJECT_CONTRIBUTIONS,
+      variables: {
+        projectId,
+      },
+    });
+
+    if (res.errors) {
+      throw new Error("Failed to get contributions");
+    }
+
+    return res.data?.getProject?.contributions;
   }
 }

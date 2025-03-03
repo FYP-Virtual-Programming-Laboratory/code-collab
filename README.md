@@ -37,11 +37,10 @@ You can configure the URLs for GraphQL, WebSocket, and signaling server using th
 import { configure } from "code-collab";
 
 await configure({
-  gqlUrl: "http://your-graphql-url",
-  wsUrl: "ws://your-websocket-url",
-  signalUrl: "ws://your-signal-url",
-  sessionId: "123456",
-  user: "joshuaola",
+  gqlUrl: "http://your-graphql-url", // defaults to http://localhost:3000
+  wsUrl: "ws://your-websocket-url", // defaults to ws://localhost:1234
+  signalUrl: "ws://your-signal-url", // defaults to ws://localhost:4444
+  user: "joshuaola", // required
 });
 ```
 
@@ -54,19 +53,35 @@ The `FileManager` class provides methods to interact with files.
 ```typescript
 import { FileManager } from "code-collab";
 
-const fileMeta = await FileManager.getFileMeta({ fileId: 1 });
+const fileMeta: {
+  __typename?: "File";
+  createdAt: any;
+  id: string;
+  lastModified: any;
+  path: string;
+  size?: number | null;
+} | null = await FileManager.getFileMeta({ fileId: 1 });
 ```
 
 #### Get File Content
 
 ```typescript
-const fileContent = await FileManager.getFileContent({ fileId: 1 });
+const fileContent: string | null = await FileManager.getFileContent({
+  fileId: 1,
+});
 ```
 
 #### Get File History
 
 ```typescript
-const fileHistory = await FileManager.getFileHistory({ fileId: 1 });
+const fileHistory: {
+  __typename?: "Version";
+  id: number;
+  createdAt: any;
+  committedBy: string;
+  snapshot: string;
+  fileId: string;
+}[] = await FileManager.getFileHistory({ fileId: 1 });
 ```
 
 ### ProjectManager
@@ -78,7 +93,13 @@ The `ProjectManager` class provides methods to manage projects.
 ```typescript
 import { ProjectManager } from "code-collab";
 
-const project = await ProjectManager.createProject({
+const project: {
+  __typename?: "Project";
+  id: number;
+  name: string;
+  sessionId: string;
+  createdAt: any;
+} | null = await ProjectManager.createProject({
   sessionId: "session-id",
   createdBy: 1,
   projectName: "New Project",
@@ -89,7 +110,7 @@ const project = await ProjectManager.createProject({
 #### Update Project
 
 ```typescript
-const updated = await ProjectManager.updateProject({
+const updated: boolean = await ProjectManager.updateProject({
   sessionId: "session-id",
   projectName: "Updated Project Name",
 });
@@ -98,7 +119,7 @@ const updated = await ProjectManager.updateProject({
 #### Add User to Project
 
 ```typescript
-const added = await ProjectManager.addUserToProject({
+const added: boolean = await ProjectManager.addUserToProject({
   projectId: 1,
   user: "farayolaj",
 });
@@ -107,7 +128,7 @@ const added = await ProjectManager.addUserToProject({
 #### Remove User from Project
 
 ```typescript
-const removed = await ProjectManager.removeUserFromProject({
+const removed: boolean = await ProjectManager.removeUserFromProject({
   projectId: 1,
   user: "farayolaj",
 });
@@ -116,7 +137,14 @@ const removed = await ProjectManager.removeUserFromProject({
 #### Get Project Info
 
 ```typescript
-const projectInfo = await ProjectManager.getProjectInfo({
+const projectInfo: {
+  __typename?: "Project";
+  id: number;
+  sessionId: string;
+  name: string;
+  members: Array<string>;
+  createdAt: any;
+} | null = await ProjectManager.getProjectInfo({
   sessionId: "session-id",
 });
 ```
@@ -124,7 +152,35 @@ const projectInfo = await ProjectManager.getProjectInfo({
 #### List Project Files
 
 ```typescript
-const files = await ProjectManager.listFiles({ projectId: 1 });
+const files: (
+  | {
+      __typename?: "Directory";
+    }
+  | {
+      __typename?: "File";
+      id: string;
+      path: string;
+      size?: number | null;
+      createdAt: any;
+      lastModified: any;
+    }
+)[] = await ProjectManager.listFiles({ projectId: 1 });
+```
+
+#### Get Project Contributions
+
+```typescript
+const contributions:
+  | {
+      __typename?: "Contributions";
+      contributors: Array<string>;
+      contributionStats: Array<{
+        __typename?: "ContributionStats";
+        contributor: string;
+        contributions: number;
+      }>;
+    }
+  | undefined = await ProjectManager.getContributions({ projectId: 1 });
 ```
 
 ### CodeCollab Component
@@ -137,7 +193,14 @@ The `CodeCollab` component sets up the collaborative editor.
 import CodeCollab from "code-collab";
 
 function App() {
-  return <CodeCollab />;
+  return (
+    <CodeCollab
+      sessionId="123456" // required
+      getDisplayName={(user: string) => {
+        return "Display Name";
+      }} // required
+    />
+  );
 }
 ```
 
