@@ -7,6 +7,9 @@ const user =
   new URLSearchParams(window.location.search).get("user") || "farayolaj";
 
 configure({
+  gqlUrl: import.meta.env.VITE_GQL_URL,
+  signalUrl: import.meta.env.VITE_SIGNAL_URL,
+  wsUrl: import.meta.env.VITE_WS_URL,
   user,
 }).then(() => {
   createRoot(document.getElementById("root")!).render(
