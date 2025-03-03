@@ -34,6 +34,9 @@ export function FileVersions() {
   const { doc } = useYObjects();
   const dispatch = useAppDispatch();
 
+  const fileHistory =
+    data?.getFileVersions.filter((version) => !!version.snapshot) || [];
+
   const onVersionSelect = (version: Version) => {
     if (activeFile) {
       const content = snapshotToDoc(version.snapshot, doc)
@@ -60,40 +63,37 @@ export function FileVersions() {
     <ExplorerItem title="File Versions">
       <div className="py-2">
         {loading && <p className="text-center px-2">Loading...</p>}
-        {!data ||
-          (data?.getFileVersions.length === 0 && (
-            <p className="text-center px-2">No file versions available.</p>
-          ))}
-        {data && (
-          <div className="flex flex-col gap-2">
-            {data.getFileVersions.map((version) => (
-              <div
-                key={version.id}
-                className="relative group flex flex-col cursor-pointer hover:bg-gray-300 px-2"
-                onClick={() => onVersionSelect(version)}
-              >
-                <span className="font-bold">
-                  {new Date(version.createdAt).toLocaleString()}
-                </span>
-                <span className="text-xs font-semibold text-neutral-600">
-                  Committed by {version.committedBy}
-                </span>
-                <div className="div absolute right-2 h-full items-center hidden group-hover:flex">
-                  <Button
-                    size={"sm"}
-                    className="h-6"
-                    onClick={(ev) => {
-                      ev.stopPropagation();
-                      dispatch(revertFileDialogOpened(version));
-                    }}
-                  >
-                    Revert
-                  </Button>
-                </div>
-              </div>
-            ))}
-          </div>
+        {fileHistory.length === 0 && (
+          <p className="text-center px-2">No file versions available.</p>
         )}
+        <div className="flex flex-col gap-2">
+          {fileHistory.map((version) => (
+            <div
+              key={version.id}
+              className="relative group flex flex-col cursor-pointer hover:bg-gray-300 px-2"
+              onClick={() => onVersionSelect(version)}
+            >
+              <span className="font-bold">
+                {new Date(version.createdAt).toLocaleString()}
+              </span>
+              <span className="text-xs font-semibold text-neutral-600">
+                Committed by {version.committedBy}
+              </span>
+              <div className="div absolute right-2 h-full items-center hidden group-hover:flex">
+                <Button
+                  size={"sm"}
+                  className="h-6"
+                  onClick={(ev) => {
+                    ev.stopPropagation();
+                    dispatch(revertFileDialogOpened(version));
+                  }}
+                >
+                  Revert
+                </Button>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </ExplorerItem>
   );
