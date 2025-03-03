@@ -23,6 +23,7 @@
     "dev:websocket": "HOST=localhost PORT=1234 node ./node_modules/y-websocket/bin/server.cjs",
     "dev:webrtc": "PORT=4444 node ./node_modules/y-webrtc/bin/server.js",
     "build": "tsc -b && vite build",
+    "build:main": "tsc -b && vite -c vite.config.main.ts build",
     "lint": "eslint .",
     "preview": "vite preview",
     "gql-codegen": "graphql-codegen",
