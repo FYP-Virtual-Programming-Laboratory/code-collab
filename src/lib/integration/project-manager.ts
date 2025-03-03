@@ -14,22 +14,19 @@ import {
 export class ProjectManager {
   static async createProject({
     sessionId,
-    createdBy,
     projectName,
-    participantIds,
+    members,
   }: {
     sessionId: string;
-    createdBy: number;
     projectName: string;
-    participantIds: number[];
+    members: string[];
   }) {
     const res = await getApolloClient().mutate({
       mutation: CREATE_PROJECT_MUTATION,
       variables: {
         sessionId,
-        creatorId: createdBy,
         name: projectName,
-        memberIds: participantIds,
+        members,
       },
     });
 

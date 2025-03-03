@@ -42,7 +42,7 @@ export function NewFileDialog() {
     [dispatch]
   );
   const openFile = useCallback(
-    (id: number) => dispatch(fileOpened({ fileId: id })),
+    (id: string) => dispatch(fileOpened({ fileId: id })),
     [dispatch]
   );
 

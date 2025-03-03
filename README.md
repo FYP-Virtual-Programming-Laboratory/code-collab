@@ -101,9 +101,8 @@ const project: {
   createdAt: any;
 } | null = await ProjectManager.createProject({
   sessionId: "session-id",
-  createdBy: 1,
   projectName: "New Project",
-  participantIds: [1, 2, 3],
+  members: ["johndoe", "janedoe"],
 });
 ```
 
