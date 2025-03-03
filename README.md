@@ -189,7 +189,7 @@ The `CodeCollab` component sets up the collaborative editor.
 #### Example
 
 ```tsx
-import CodeCollab from "code-collab";
+import { CodeCollab } from "code-collab";
 
 function App() {
   return (
