@@ -2,6 +2,10 @@ import { AwarenessState } from "@/components/y-objects-provider";
 import { TinyColor } from "@ctrl/tinycolor";
 import { editor, Position, Range, Selection } from "monaco-editor";
 
+function normaliseCssSelector(selector: string) {
+  return selector.replace(" ", "_");
+}
+
 function cursorToDecoration(cursor: Position, username: string) {
   return {
     range: new Range(
@@ -11,7 +15,7 @@ function cursorToDecoration(cursor: Position, username: string) {
       cursor.column
     ),
     options: {
-      className: `my-cursor my-cursor-${username}`,
+      className: `my-cursor my-cursor-${normaliseCssSelector(username)}`,
       after: {
         content: username,
       },
@@ -70,18 +74,28 @@ export function awarenessToStyle(states: AwarenessState[]) {
 
     if (cursor) {
       decorationStyles.push(
-        `.my-cursor-${user.name} { position: relative; background-color: ${activeBgColour}; color: ${cursorTextColour}; z-index: 1; }`
+        `.my-cursor-${normaliseCssSelector(
+          user.name
+        )} { position: relative; background-color: ${activeBgColour}; color: ${cursorTextColour}; z-index: 1; }`
       );
       decorationStyles.push(
-        `.my-cursor-${user.name}::after { position: absolute; top: 1.4em; content: '${user.name}'; font-size: 0.8em; background-color: ${baseBgColour}; border-radius: 0.4em; padding: 0px 0.2em; }`
+        `.my-cursor-${normaliseCssSelector(
+          user.name
+        )}::after { position: absolute; top: 1.4em; content: '${
+          user.name
+        }'; white-space: nowrap; font-size: 0.8em; background-color: ${baseBgColour}; border-radius: 0.4em; padding: 0px 0.2em; }`
       );
       decorationStyles.push(
-        `.my-cursor-${user.name}:hover::after { background-color: ${activeBgColour}; }`
+        `.my-cursor-${normaliseCssSelector(
+          user.name
+        )}:hover::after { background-color: ${activeBgColour}; }`
       );
     }
     if (selection) {
       decorationStyles.push(
-        `.my-selection-${user.name} { background-color: ${baseBgColour}; }`
+        `.my-selection-${normaliseCssSelector(
+          user.name
+        )} { background-color: ${baseBgColour}; }`
       );
     }
   });
