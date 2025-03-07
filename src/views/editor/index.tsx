@@ -38,7 +38,7 @@ export default function EditorView({ projectId }: { projectId: number }) {
     <FileTreeContext.Provider
       value={{ tree: fileTree || new DirNode("0", "", 0), cache: fileCache }}
     >
-      <div className="h-screen">
+      <div className="h-full">
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel defaultSize={20}>
             <Explorer />

@@ -14,15 +14,17 @@ configure({
 }).then(() => {
   createRoot(document.getElementById("root")!).render(
     <StrictMode>
-      <CodeCollab
-        sessionId="123456"
-        getDisplayName={(user) =>
-          ({
-            farayolaj: "Joshua Farayola",
-            johndoe: "John Doe",
-          }[user] || user)
-        }
-      />
+      <div style={{ width: "100vw", height: "100vh" }}>
+        <CodeCollab
+          sessionId="123456"
+          getDisplayName={(user) =>
+            ({
+              farayolaj: "Joshua Farayola",
+              johndoe: "John Doe",
+            }[user] || user)
+          }
+        />
+      </div>
     </StrictMode>
   );
 });
